@@ -119,32 +119,32 @@
         - Ajout de la logique de sauvegarde (LittleFS).
 
     4. #### Tests et validation
-    Vérification du respect des horaires programmés.
-    Tests de memoire(coupure de courant, redémarrage, etc.).
-    Validation de l’interface web.
+        - Vérification du respect des horaires programmés.
+        - Tests de memoire(coupure de courant, redémarrage, etc.).
+        - Validation de l’interface web.
 
     5. #### Intégration et déploiement
-    Conception d’un boîtier sécurisé pour loger l’ESP8266 et le relais.
-    Presentation pour defense .
+        - Conception d’un boîtier sécurisé pour loger l’ESP8266 et le relais.
+        - Presentation pour defense .
 
-Perspectives d’évolution
+10. ### Perspectives d’évolution
 
-- Contrôle via Internet (IoT) : possibilité de commander les appareils à distance via une
-application mobile ou une plateforme cloud.
-- Ajout de capteurs intelligents : capteur d’humidité pour déclencher automatiquement
-l’arrosage, capteur de niveau d’eau pour gérer les pompes, capteur de consomation de courant, etc.
-- Gestion multi-appareils : extension du système pour contrôler plusieurs prises simultanément,
-par exemple une série arroseur electique.
--Compatibilité avec panneaux solaires : gestion intelligente de l’énergie solaire pour optimiser
-la consommation et éviter les pertes.
-- Collecte de données agricoles : ajout de statistiques d’utilisation et de rapports pour aider les
-cultivateurs à mieux planifier leurs travaux.
+    1. #### Contrôle via Internet (IoT) 
+        - possibilité de commander les appareils à distance via une application mobile ou une plateforme cloud.
+    2. #### Ajout de capteurs intelligents 
+        - capteur d’humidité pour déclencher automatiquement l’arrosage, capteur de niveau d’eau pour gérer les pompes, capteur de consomation de courant, etc.
+    3. #### Gestion multi-appareils 
+        - extension du système pour contrôler plusieurs prises simultanément, par exemple une série arroseur electique.
+    4. #### Compatibilité avec panneaux solaires 
+        - gestion intelligente de l’énergie solaire pour optimiser la consommation et éviter les pertes.
+    5. #### Collecte de données agricoles 
+        - ajout de statistiques d’utilisation et de rapports pour aider les cultivateurs à mieux planifier leurs travaux.
 
-Conclusion
-Le projet de contrôle d’alimentation via ESP8266 constitue une solution flexible et économique pour
-répondre aux besoins d’automatisation et d’optimisation énergétique.
-Grâce à sa conception modulaire, il peut être appliqué dans la gestion des appareils industriels,
-l’éclairage communautaire, d’autres installations agricoles,...
+11. ### Conclusion
+    Le projet de contrôle d’alimentation via ESP8266 constitue une solution flexible et économique pour
+    répondre aux besoins d’automatisation et d’optimisation énergétique.
+    Grâce à sa conception modulaire, il peut être appliqué dans la gestion des appareils industriels,
+    l’éclairage communautaire, d’autres installations agricoles,...
 
 L’utilisation de l’ESP8266 permet une connectivité Wi-Fi intégrée, rendant le système accessible et
 configurable via une simple page web, sans dépendre de dispositifs externes. Avec des perspectives
