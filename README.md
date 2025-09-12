@@ -1,3 +1,5 @@
+# Une meilleur documentation est en cour de redaction
+  __vous pouvez quand meme utiliser celle comme reference__
 # Système de contrôle programmer d’alimentation des appareil via et interface web
 
 ## Canevas du projet tutoré
