@@ -1,8 +1,6 @@
-# Système de contrôle programmer d’alimentation des appareil via et interface web
+# Controle de l'alimentation des appareils par des plages horaires
 
-## Canevas du projet tutoré
-
-1. ### Contexte et justification
+### Contexte et justification
 
     L’objectif principal de ce projet est de concevoir et de mettre en œuvre un système intelligent, basé sur
     un microcontrôleur ESP8266, permettant de contrôler l’alimentation électrique des appareils branchés à
@@ -16,13 +14,11 @@
     microcontrôleur ESP8266 (doté d’une connectivité Wi-Fi),d'un module d'horloge(RTC DS1302), d’un systheme de stockage (LittleFS) et
     d’une interface web conviviale.
 
-2. ### Problématique
+### Problématique
 
-**Comment concevoir un système basé sur ESP8266, simple et accessible, qui permette de**
-**contrôler l’alimentation d’appareils électriques selon des plages horaires définies par l’utilisateur,**
-**via une page web intuitive et sans connexion internet externe ?**
+   **Comment concevoir un système basé sur ESP8266, simple et accessible, qui permette de contrôler l’alimentation d’appareils électriques selon des plages horaires définies par l’utilisateur, via une page web intuitive et sans connexion internet externe ?**
 
-3. #### __Objectifs du projet__
+#### Objectifs du projet
 
 - _Objectif principal_
     Développer une prise intelligente contrôlée par ESP8266, permettant à l’utilisateur de
@@ -44,22 +40,20 @@
     - Tester le système dans un contexte réel (par exemple un arroseur automatique ou un
     éclairage).
 
-4. ### Analyse des besoins
+### Analyse des besoins
 
 - __Les utilisateurs ciblés par notre système sont :__
     - Les agriculteurs souhaitant automatiser des arroseurs, séchoirs ou éclairages.
     - Les ménages pour gérer la télévision, le ventilateur, ou le chargeur électrique.
     - Les communautés pour gérer un éclairage collectif (ex. lampes solaires).
 
-5. ### Contraintes
+### Contraintes
 
 - __ce projet doit avoir :__
     - Accessibilité hors ligne (fonctionne sans internet, via WiFi local).
     - Sécurité électrique : relais et prise protégés dans un boîtier isolé.
     - Interface légère et intuitive : adaptée aux téléphones et ordinateurs.
-    - Fiabilité : l’heure doit rester correcte même en cas de coupure (RTC).
-
- ### Conception 
+    - Fiabilité : l’heure doit rester correcte même en cas de coupure (RTC).### Conception 
 
 - __La conception repose sur une logique d'algorithmique simple:__
 
@@ -79,7 +73,7 @@
         - Affichage de l’état actuel (ON/OFF).
         - Heure courante synchronisée avec l’horloge RTC
 
-7. ### Exemples d’utilisation
+### Exemples d’utilisation
 
     1. Agriculture et irrigation
         - Arroseurs automatiques pour champs de maïs ou de manioc : déclenchement à l’aube (5h-6h) et au crépuscule (18h-19h) pour éviter  l’évaporation excessive de l’eau.
@@ -94,14 +88,14 @@
         - Éclairage domestique : activation automatique des ampoules dans les maisons ou fermes à certaines heures.
         - gestion des appareils : allumer ou etteindre certain appareils(television, four electique, prises) selon des plages predefinie pour limiterla consomation en electricite.
 
-8. ### Avantages du projet
+### Avantages du projet
 
     1. Économique : composants à faible coût, autonomie énergétique et réduction du gaspillage.
     2. Accessibiliter : disponible sur toutes les platforms avec navigateur et ceux sans connexion internet.
     3. Polyvalent : utilisable en agriculture, domestique, communautaire, pour ne citer que ceux la.
     4. Évolutif : possibilité d’ajouter de nouvelles fonctionnalités
 
-9. ### Déroulement du projet
+### Déroulement du projet
 
     1. #### Étude et conception
         - Analyse des besoins spécifiques dans un contexte (agriculture, pompes, arrosage, éclairage).
@@ -127,7 +121,7 @@
         - Conception d’un boîtier sécurisé pour loger l’ESP8266 et le relais.
         - Presentation pour defense .
 
-10. ### Perspectives d’évolution
+1### Perspectives d’évolution
 
     1. #### Contrôle via Internet (IoT) 
         - possibilité de commander les appareils à distance via une application mobile ou une plateforme cloud.
@@ -140,7 +134,7 @@
     5. #### Collecte de données agricoles 
         - ajout de statistiques d’utilisation et de rapports pour aider les cultivateurs à mieux planifier leurs travaux.
 
-11. ### Conclusion
+1### Conclusion
     Le projet de contrôle d’alimentation via ESP8266 constitue une solution flexible et économique pour
     répondre aux besoins d’automatisation et d’optimisation énergétique.
     Grâce à sa conception modulaire, il peut être appliqué dans la gestion des appareils industriels,
