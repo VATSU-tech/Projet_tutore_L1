@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 # Controle de l'alimentation des appareils par des plages horaires
+=======
+# ⚠️ Une meilleur documentation est en cour de redaction
+  __vous pouvez quand meme utiliser celle ci comme reference.__
+  
+**________________________________________________________________________________________________________________________________________________**
+# Système de contrôle programmer d’alimentation des appareil via et interface web
+>>>>>>> 8a7b523aeb17dfbee2aee1197e2443dc4d94b34f
 
 ### Contexte et justification
 
