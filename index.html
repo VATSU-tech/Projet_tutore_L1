@@ -102,14 +102,14 @@
           <h2>Plages autoriser</h2>
           <div class='edit_plage_zone'>
             <div class='plage'>
-              )rawliteral';
+              <!-- )rawliteral';
                           for (uint8_t i = 0; i < nPlages; i++) {
                             page += '<span>';
                             page += String(plages[i].heure_debut) + 'h' + String(plages[i].minute_debut) + ' → ';
                             page += String(plages[i].heure_fin)   + 'h' + String(plages[i].minute_fin);
                             page += '</span>';
                           }
-                          page += R'rawliteral(
+                          page += R'rawliteral( -->
             </div>
             <button class='btn primary' id='openEdit' style='height: 50px'>
               🖊
@@ -134,7 +134,7 @@
         </button>
         <div id='editPlages'>
           <div class='plageHoraireEdit'>
-            )rawliteral';
+            <!-- )rawliteral';
                     for (uint8_t i = 0; i < nPlages; i++) {
                       page += '<span>';
                       page += String(plages[i].heure_debut) + 'h' + String(plages[i].minute_debut) + ' → ';
@@ -142,7 +142,7 @@
                       page += ' <a href='/del?id=' + String(i) + ''>🗑</a>';
                       page += '</span>';
                     }
-                    page += R'rawliteral(
+                    page += R'rawliteral( -->
             <form action='/add' method='GET'>
               <fieldset>
                 <legend>ajouter plage</legend>
@@ -220,7 +220,7 @@
   const date =document.getElementById('date');
   const timer = setInterval(() => {
     const currentDate = new Date();
-    // hours.textContent = currentDate.getHours() + ' : ' + currentDate.getMinutes() + ' : ' + currentDate.getSeconds();
+    hours.textContent = currentDate.getHours() + ' : ' + currentDate.getMinutes() + ' : ' + currentDate.getSeconds();
     date.textContent =currentDate.getDate() + ' / ' + (currentDate.getMonth() + 1) + ' / ' + currentDate.getFullYear();
   }, 1000); 
    
@@ -231,24 +231,24 @@ const openEdit = document.getElementById('openEdit');
   
 
   // ⚡ Recuperation heure depuis l’ESP toutes les secondes
-  function updateTime() {
-    fetch('/time')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('currentTime').textContent = data;
-      })
-      .catch(err => console.error('Erreur maj heure :', err));
-  }
-  setInterval(updateTime, 1000);
+  // function updateTime() {
+  //   fetch('/time')
+  //     .then(response => response.text())
+  //     .then(data => {
+  //       document.getElementById('currentTime').textContent = data;
+  //     })
+  //     .catch(err => console.error('Erreur maj heure :', err));
+  // }
+  // setInterval(updateTime, 1000);
 
-  function updateText() {
-    fetch('/allumer')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('powerBtn').textContent = data;
-      }).catch(err => console.error('Erreur text :', err));
-  }
-  setInterval(updateText, 1000);
+  // function updateText() {
+  //   fetch('/allumer')
+  //     .then(response => response.text())
+  //     .then(data => {
+  //       document.getElementById('powerBtn').textContent = data;
+  //     }).catch(err => console.error('Erreur text :', err));
+  // }
+  // setInterval(updateText, 1000);
 
   // Gestion de l’edition des plages
   openEdit.addEventListener('click', ()=>{
