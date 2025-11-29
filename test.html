@@ -1,45 +1,436 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<style>
-    :root{
-        --background:gray;
-        --text:aqua;
-        --light : #eee;
-        --aqua: rgba(0,255,255,.45);
+  <!DOCTYPE html>
+  <html lang='fr'>     
+  <head>
+      <meta charset='UTF-8'>
+      <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+      <title>Contrôle Television Reglemente</title> 
+  </head>
+  <style>
+  /* Variables CSS pour les couleurs et animations */
+  :root {
+    --background: #444444;
+    --primary: #9598bf;
+    /* --primary: #2b2d42; */
+    --secondary: #8d99ae;
+    --accent: #9598bf;
+    --success: #8d99ae; 
+    /* --bg: #edf2f4; */
+    --bg: #272828;
+    --text: #222;
+    --shadow: 0 4px 24px rgba(44, 62, 80, 0.15);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: background 0.5s;
+  }
+
+  .container { 
+    background: var(--background);
+    box-shadow:0 0 10px var(--primary);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    margin-top: 3rem;
+    width: 100%;
+    max-width: 480px;
+    animation: fadeIn 1.2s cubic-bezier(.42,0,.58,1); 
+  }
+  .timePanel{
+    display: flex;
+    justify-content: space-evenly;
+  } 
+  #allowedRange{
+    display: flex;
+    flex-direction: column;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1 {
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 1.2rem;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    animation: popIn 1s;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  .time-section, .control-section, .stats-section {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .plageHoraire{
+    display: flex;
+    justify-content: space-between;
+  }
+  .modifierPlageHoraire{
+    display: flex;
+    align-items: center;
+    color: var(--primary);
+    border: .1px solid var(--primary);
+    border-radius: 50%;
+    height: 40px;
+    padding: 0 .7rem;
+    transform: scale(.65);
+    transition: .2s;
+    user-select: none;
+  }
+
+  .modifierPlageHoraire > span {
+    transform: scale(1.4);
+  }
+
+  .modifierPlageHoraire:hover{
+    transform: scale(.8);
+    cursor: pointer;
+    box-shadow:  0 0 10px var(--primary);
+    background-color: var(--primary);
+    color: var(--bg);
+    font-weight: 700;
+  }
+
+  .label {
+    font-weight: 600;
+    color: var(--secondary);
+    margin-bottom: 0.2rem;
+  }input[type='number']{
+    text-align: center;
+    width: 39%;
+  }
+
+  input[type='number'], input[type='time'] {
+    background-color: var(--background);
+    color: var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--secondary);
+    font-size: 1.1rem;
+    transition: border 0.3s;
+  }
+  input:focus {
+    border-color: var(--text);
+    color: var(--text);
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    background: var(--background);
+    color: var(--accent);
+    border: .5px solid var(--accent);
+    border-radius: 8px;
+    padding: 0.7rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: background 0.5s, transform 0.2s;
+    margin: 4% 0 0 0;
+  }
+  button:hover{
+    background-color: var(--success);
+    color: var(--background);
+  }
+  button:active {
+    background: var(--primary);
+    transform: scale(0.97);
+  }
+
+  .status {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--success);
+    margin-top: 0.5rem;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { color: var(--success); }
+    30% { color: var(--accent); }
+    100% { color: var(--success); }
+  }
+
+  .countdown, .total-on {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-align: center;
+    margin-top: 0.5rem;
+    letter-spacing: 1px;
+    animation: bounce 1.2s infinite alternate;
+  }
+
+  .minutes, #powerBtn{
+    margin: 1% 5%;
+  }
+
+  .plageHoraireEdit{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #editPlages{
+    display: none;
+    color: var(--primary);
+    position:absolute;
+    top: 48px;
+    left: 50%;
+    transform: translateX( -50%);
+    background-color: var(--background);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow:0 0 10px var(--primary);
+    transition: 1s;
+    animation: fadenIn  1.2s cubic-bezier(.42,0,.58,1);
+  }
+
+  #editPlages > div > span{
+    font-size: 1.5rem;
+    font-weight: 450; 
+  }
+
+  #editPlages > div > span a{
+    text-decoration: none;
+    color: red;
+    margin: 0 0 0 1rem;
+    font-size: 1.8rem;
+    animation: delet 2s infinite forwards cubic-bezier(.42,0,.58,1);
+  }
+
+  @keyframes delet {
+    0%,100%{ text-shadow:0 0 0 red;}
+    50%{text-shadow:0 0 20px red;}
+    
+  }
+  #editPlages > div > form > fieldset{
+    padding: 1rem 3rem ;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin: 0 auto;
+    gap:.5rem;
+  }
+  fieldset{ 
+    color: var(--primary);
+    border: .4px solid var(--primary);
+    border-radius: 15px;
+  }
+
+  legend{
+    margin-left: -36%;
+    border: .5px solid var(--primary);
+    border-radius: 5px;
+    padding: 0 .2rem .2rem .2rem;
+  }
+
+  #editPlages > div > form > fieldset > div > span{
+    font-size: 1.3rem;
+    font-weight: 400;
+  }
+
+  #editPlages > div > form > fieldset > div > input[type=number]{
+    width: 40px;
+    /* padding: auto 0 auto 0; */
+    /* text-align: left; */
+    height: 10px;
+    scrollbar-width: none; 
+  }
+
+  #editPlages > div > form > fieldset > input{
+    width: 70px;
+    background: var(--background);
+    color: var(--accent);
+    border: .5px solid var(--accent);
+    border-radius: 8px;
+    padding: 0.3rem 0 ;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: background 0.5s, transform 0.2s;
+    margin: .1rem auto;  
+  }
+  #editPlages > div > form > fieldset > input:hover{
+    background-color: var(--success);
+    color: var(--background);
+  }
+  #editPlages > div > form > fieldset > input:active {
+    background: var(--primary);
+    transform: scale(0.97);
+  }
+
+  #closeEdit{
+    display: flex;
+    justify-content: center;
+    font-size: 1.3rem;
+    border-radius: 15px;
+    text-align: center;
+    padding: 0 auto;
+    height: 50px; 
+    margin:0 auto;
+  }
+
+  @keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-8px); }
+  }
+
+  .range {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    background: var(--bg);
+    transition: width .5s;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 9px;
+  }
+  ::-webkit-scrollbar:hover{ 
+    width: 12px;
+  }
+  @media screen and (max-width: 470px) {
+    .timePanel{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    *{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+    
+  }
+  </style>
+
+  <body> 
+      <div class='container' id="container">
+          <div></div>
+          <h1>Contrôle Appareil</h1>
+          <div class='timePanel'>
+
+              <div class='time-section'>
+                  <span class='label'>Heure actuelle :</span>
+                  <div id='currentTime' class='countdown'></div>
+              </div>
+              <div class='control-section'>
+                  <span class='label'>Plage horaire autorisee :</span>
+                  <div class='plageHoraire'>
+                      <div id='allowedRange' style='font-weight:700; color:var(--primary);'>
+                          <!-- )rawliteral";
+                          for (uint8_t i = 0; i < nPlages; i++) {
+                            page += "<span>";
+                            page += String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → ";
+                            page += String(plages[i].heure_fin)   + "h" + String(plages[i].minute_fin);
+                            page += "</span>";
+                          }
+                          page += R"rawliteral( -->
+                      </div>
+                      <span class='modifierPlageHoraire' id='openEdit'><span>🖊</span></span>
+                  </div>
+              </div>
+
+          </div>
+          <form action='/override' method='GET' class='minutes'>
+              <span class='label'>Allumer pendant (minutes) :</span>
+              <input type='number' name='minutes' id='minutesInput' min='1' max='180' placeholder='Duree en minutes'>
+              <button id='powerBtn' type="submit">Allumer la l'appareil</button>
+          </form> 
+      </div>
+
+      <div id='editPlages'>
+          <h2>Modifier les plages horaires</h2>
+          <div class='plageHoraireEdit'>
+            <!-- )rawliteral";
+
+    for (uint8_t i = 0; i < nPlages; i++) {
+      page += "<span>";
+      page += String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → ";
+      page += String(plages[i].heure_fin)   + "h" + String(plages[i].minute_fin);
+      page += " <a href='/del?id=" + String(i) + "'>🗑</a>";
+      page += "</span>";
     }
 
-    html, body{
-        background-color: var(--background);
-        color: var(--text);
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    button{ 
-        background-color: var(--background);
-        padding:4rem;
-        border-radius: 50%;
-        border: 1px solid var(--text);
-        box-shadow: 0 0 1rem var(--background), 0 0 2rem var(--light),0 0 2rem var(--aqua) inset;
+    page += R"rawliteral( -->
+              <form action='/add' method='GET'>
+                  <fieldset>
+                      <legend>ajouter plage</legend>
 
-    }
-</style>
-<body>
-    <main>
-        <div class="contain">
-            <button id="commande"><img src="power-off.svg" alt="img" height="50"></button>
-        </div>
-    </main>
-</body>
-</html>
+                      <div>
+                          <span>Debut :</span> 
+                          <input type='number' name='h' min='0' max='23' placeholder="H"> <span>:</span>
+                          <input type='number' name='m' min='0' max='59' placeholder="M"> <br>
+                      </div>
+                      <div>
+                          <span>Fin : </span>
+                          <input type='number' name='hf' min='0' max='23' placeholder="H"> <span>:</span>
+                          <input type='number' name='mf' min='0' max='59' placeholder="M"><br>
+                      </div>
+                      <input type='submit' value='Ajouter'>
+                  </fieldset>
+              </form>
+          </div>
+          <span class='modifierPlageHoraire' id='closeEdit'>Fermer</span>
+      </div>
+  </body>
+  <script>
+  const openEdit = document.getElementById('openEdit');
+  const closeEdit = document.getElementById('closeEdit');
+  const editDisplay = document.getElementById('editPlages');
+  const homeDisplay = document.getElementById('container');
+ 
+  // ⚡ Recuperation heure depuis l’ESP toutes les secondes
+//   function updateTime() {
+//     fetch('/time')
+//       .then(response => response.text())
+//       .then(data => {
+//         document.getElementById('currentTime').textContent = data;
+//       })
+//       .catch(err => console.error("Erreur maj heure :", err));
+//   }
+//   setInterval(updateTime, 1000);
+
+//   function updateText() {
+//     fetch('/allumer')
+//       .then(response => response.text())
+//       .then(data => {
+//         document.getElementById('powerBtn').textContent = data;
+//       }).catch(err => console.error("Erreur text :", err));
+//   }
+//   setInterval(updateText, 1000);
+
+  // Gestion de l’edition des plages
+  openEdit.addEventListener('click', ()=>{
+    editDisplay.style.display = 'block';
+    homeDisplay.style.filter = 'blur(15px)';
+    homeDisplay.style.cursor = 'not-allowed';
+  });
+
+  closeEdit.addEventListener('click', ()=>{
+    editDisplay.style.display = 'none';
+    homeDisplay.style.filter = 'none';
+  });
+
+  </script>
+
+  </html> 
