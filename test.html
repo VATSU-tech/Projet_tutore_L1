@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    :root{
+        --background:gray;
+        --text:aqua;
+        --light : #eee;
+        --aqua: rgba(0,255,255,.45);
+    }
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body{
+        background-color: var(--background);
+        color: var(--text);
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    button{ 
+        background-color: var(--background);
+        padding:4rem;
+        border-radius: 50%;
+        border: 1px solid var(--text);
+        box-shadow: 0 0 1rem var(--background), 0 0 2rem var(--light),0 0 2rem var(--aqua) inset;
+
+    }
+</style>
+<body>
+    <main>
+        <div class="contain">
+            <button id="commande"><img src="power-off.svg" alt="img" height="50"></button>
+        </div>
+    </main>
+</body>
+</html>
