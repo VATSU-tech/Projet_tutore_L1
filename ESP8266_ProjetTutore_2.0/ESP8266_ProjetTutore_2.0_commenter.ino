@@ -231,14 +231,19 @@ bool chargerPlages() {                                     // Fonction pour char
 
   <style>
     body,
-    nav a {
-      color: var(--ink);
-    }
+   a {
+    margin: 0 10px;
+    opacity: 0.9;
+    text-decoration: none;
+    color: var(--hot);
+    font-size: 1.5rem;
+    transition: .2s;
+  }
 
-    .social a,
-    nav a {
-      text-decoration: none;
-    }
+   a:hover { 
+    text-shadow: 0 0 1rem var(--bg),0 0 2rem var(--hot);  
+    font-size: 1.7rem;
+  }
 
     .club,
     .gallery .ph {
@@ -890,11 +895,13 @@ bool chargerPlages() {                                     // Fonction pour char
         </button>
         <div id="editPlages">
           <div class="plageHoraireEdit">
-            )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span>" ;
-             page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; 
-             page +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); 
-             page +="<a href='/del?id=" + String(i) + "'>🗑</a>" ; page +="</span>" ; } 
-             page +=R"rawliteral( 
+            <div class='plage'>
+                )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span>" ;
+                page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; 
+                page +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); 
+                page +="<a href='/del?id=" + String(i) + "'>🗑</a>" ; page +="</span>" ; } 
+                page +=R"rawliteral( 
+                  </div>
                 <form action="/add" method="GET">
               <fieldset>
                 <legend>ajouter plage</legend>

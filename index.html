@@ -120,14 +120,18 @@
     margin: 0;
   }
 
-  nav a {
+   a {
     margin: 0 10px;
     opacity: 0.9;
+    text-decoration: none;
+    color: var(--hot);
+    font-size: 1.5rem;
+    transition: .2s;
   }
 
-  nav a:hover {
-    color: #fff;
-    text-shadow: 0 0 10px #fff3;
+   a:hover { 
+    text-shadow: 0 0 1rem var(--bg),0 0 2rem var(--hot);  
+    font-size: 1.7rem;
   }
 
   .hero {
@@ -645,10 +649,11 @@
           <h2>Plages autoriser</h2>
           <div class="edit_plage_zone">
             <div class="plage">
-              )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span
-                  >" ; page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; page
+              <!-- )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span
+              >" ; page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; page
                 +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); page +="</span
-                >" ; } page +=R"rawliteral( </div>
+                >" ; } page +=R"rawliteral(  -->
+                  </div>
                 <button class="btn primary" id="openEdit" style="height: 50px">
                   🖊
                 </button>
@@ -662,8 +667,8 @@
           </form>
         </div>
       </div>
-  </section>
-
+    </section>
+    
   <section id="edit_plages" class="hero" style="display: none">
     <div class="hero-inner">
       <div class="card glow">
@@ -673,11 +678,12 @@
         </button>
         <div id="editPlages">
           <div class="plageHoraireEdit">
-            )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span
-                >" ; page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; page
+            <span>16h10 → 17h0 <a href="#">🗑</a></span>
+            <!-- )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span
+            >" ; page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; page
               +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); page +="
                 <a href='/del?id=" + String(i) + "'>🗑</a>" ; page +="</span
-              >" ; } page +=R"rawliteral( 
+              >" ; } page +=R"rawliteral(  -->
                 <form action="/add" method="GET">
               <fieldset>
                 <legend>ajouter plage</legend>
@@ -782,25 +788,25 @@
   const editDisplay = document.getElementById("edit_plages");
   const homeDisplay = document.getElementById("acceuil");
  
-  function updateTime() {
-    fetch("/time")
-      .then((response) => response.text())
-      .then((data) => {
-        document.getElementById("currentTime").textContent = data;
-      })
-      .catch((err) => console.error("Erreur maj heure :", err));
-  }
-  setInterval(updateTime, 1000);
+  // function updateTime() {
+  //   fetch("/time")
+  //     .then((response) => response.text())
+  //     .then((data) => {
+  //       document.getElementById("currentTime").textContent = data;
+  //     })
+  //     .catch((err) => console.error("Erreur maj heure :", err));
+  // }
+  // setInterval(updateTime, 1000);
 
-  function updateText() {
-    fetch("/allumer")
-      .then((response) => response.text())
-      .then((data) => {
-        document.getElementById("powerBtn").textContent = data;
-      })
-      .catch((err) => console.error("Erreur text :", err));
-  }
-  setInterval(updateText, 1000);
+  // function updateText() {
+  //   fetch("/allumer")
+  //     .then((response) => response.text())
+  //     .then((data) => {
+  //       document.getElementById("powerBtn").textContent = data;
+  //     })
+  //     .catch((err) => console.error("Erreur text :", err));
+  // }
+  // setInterval(updateText, 1000);
 
   // Gestion de l’edition des plages
   openEdit.addEventListener("click", () => {
