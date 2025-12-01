@@ -1,4 +1,4 @@
-// VATSU
+//VATSU
 //====== DECLARATION : BIBLIOTHEQUES =====
 #include <ArduinoOTA.h>           // Permet la mise à jour du code via WiFi (OTA = Over The Air)
 #include <RTC_DS1302.h>           // Gère le module RTC DS1302 (horloge temps réel)
@@ -17,7 +17,7 @@
 #define RTC_RST D7
 
 // Broches utilisées pour le relais et la LED
-#define pin_relais D8
+#define pin_relais LED_BUILTIN
 #define pin_led    D3
 
 ESP8266WebServer server(80);     // Déclaration d’un serveur web sur le port 80
@@ -222,440 +222,765 @@ bool chargerPlages() {                                     // Fonction pour char
   void page_d_accueil() {
     String page = R"rawliteral(
   <!DOCTYPE html>
-  <html lang='fr'>     
-  <head>
-      <meta charset='UTF-8'>
-      <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-      <title>Contrôle Television Reglemente</title> 
-  </head>
+    <html lang='fr'>     
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>Contrôle Television Reglemente</title> 
+    </head>
+
   <style>
-  /* Variables CSS pour les couleurs et animations */
-  :root {
-    --background: #444444;
-    --primary: #9598bf;
-    /* --primary: #2b2d42; */
-    --secondary: #8d99ae;
-    --accent: #9598bf;
-    --success: #8d99ae; 
-    /* --bg: #edf2f4; */
-    --bg: #272828;
-    --text: #222;
-    --shadow: 0 4px 24px rgba(44, 62, 80, 0.15);
-  }
+    body,
+    nav a {
+      color: var(--ink);
+    }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    transition: background 0.5s;
-  }
+    .social a,
+    nav a {
+      text-decoration: none;
+    }
 
-  .container { 
-    background: var(--background);
-    box-shadow:0 0 10px var(--primary);
-    border-radius: 20px;
-    padding: 2rem 2.5rem;
-    margin-top: 3rem;
-    width: 100%;
-    max-width: 480px;
-    animation: fadeIn 1.2s cubic-bezier(.42,0,.58,1); 
-  }
-  .timePanel{
-    display: flex;
-    justify-content: space-evenly;
-  } 
-  #allowedRange{
-    display: flex;
-    flex-direction: column;
-  }
+    .club,
+    .gallery .ph {
+      overflow: hidden;
+    }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+    input,
+    legend {
+      color: var(--pri);
+      font-weight: 700;
+    }
 
-  h1 {
-    color: var(--primary);
-    text-align: center;
-    margin-bottom: 1.2rem;
-    font-size: 2.2rem;
-    letter-spacing: 2px;
-    animation: popIn 1s;
-  }
+    .btn,
+    input,
+    legend {
+      font-weight: 700;
+    }
 
-  @keyframes popIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    80% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); }
-  }
+    :root {
+      --bg: #0b1020;
+      --bg2: #0f1733;
+      --pri: #00e5ff;
+      --acc: #00ffa8;
+      --hot: #ff3e7f;
+      --ink: #e6f7ff;
+      --mut: #89a8b3;
+      --card: #111a31cc;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glow: 0 0 18px rgba(0, 229, 255, 0.55), 0 0 38px rgba(0, 229, 255, 0.25);
+    }
 
-  .time-section, .control-section, .stats-section {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-  .plageHoraire{
-    display: flex;
-    justify-content: space-between;
-  }
-  .modifierPlageHoraire{
-    display: flex;
-    align-items: center;
-    color: var(--primary);
-    border: .1px solid var(--primary);
-    border-radius: 50%;
-    height: 40px;
-    padding: 0 .7rem;
-    transform: scale(.65);
-    transition: .2s;
-    user-select: none;
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  .modifierPlageHoraire > span {
-    transform: scale(1.4);
-  }
+    ::-webkit-scrollbar {
+      display: none;
+    }
 
-  .modifierPlageHoraire:hover{
-    transform: scale(.8);
-    cursor: pointer;
-    box-shadow:  0 0 10px var(--primary);
-    background-color: var(--primary);
-    color: var(--bg);
-    font-weight: 700;
-  }
+    body,
+    html {
+      height: 100%;
+    }
 
-  .label {
-    font-weight: 600;
-    color: var(--secondary);
-    margin-bottom: 0.2rem;
-  }input[type='number']{
-    text-align: center;
-    width: 39%;
-  }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+        Inter, Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 70% -10%,
+          #12224a 0,
+          transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2) 35%, var(--bg) 100%);
+      overflow-x: hidden;
+    }
 
-  input[type='number'], input[type='time'] {
-    background-color: var(--background);
-    color: var(--primary);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--secondary);
-    font-size: 1.1rem;
-    transition: border 0.3s;
-  }
-  input:focus {
-    border-color: var(--text);
-    color: var(--text);
-    outline: none;
-  }
-
-  button {
-    width: 100%;
-    background: var(--background);
-    color: var(--accent);
-    border: .5px solid var(--accent);
-    border-radius: 8px;
-    padding: 0.7rem 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    transition: background 0.5s, transform 0.2s;
-    margin: 4% 0 0 0;
-  }
-  button:hover{
-    background-color: var(--success);
-    color: var(--background);
-  }
-  button:active {
-    background: var(--primary);
-    transform: scale(0.97);
-  }
-
-  .status {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--success);
-    margin-top: 0.5rem;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0% { color: var(--success); }
-    30% { color: var(--accent); }
-    100% { color: var(--success); }
-  }
-
-  .countdown, .total-on {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-    text-align: center;
-    margin-top: 0.5rem;
-    letter-spacing: 1px;
-    animation: bounce 1.2s infinite alternate;
-  }
-
-  .minutes, #powerBtn{
-    margin: 1% 5%;
-  }
-
-  .plageHoraireEdit{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-  }
-
-  #editPlages{
-    display: none;
-    color: var(--primary);
-    position:absolute;
-    top: 48px;
-    left: 50%;
-    transform: translateX( -50%);
-    background-color: var(--background);
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow:0 0 10px var(--primary);
-    transition: 1s;
-    animation: fadenIn  1.2s cubic-bezier(.42,0,.58,1);
-  }
-
-  #editPlages > div > span{
-    font-size: 1.5rem;
-    font-weight: 450; 
-  }
-
-  #editPlages > div > span a{
-    text-decoration: none;
-    color: red;
-    margin: 0 0 0 1rem;
-    font-size: 1.8rem;
-    animation: delet 2s infinite forwards cubic-bezier(.42,0,.58,1);
-  }
-
-  @keyframes delet {
-    0%,100%{ text-shadow:0 0 0 red;}
-    50%{text-shadow:0 0 20px red;}
-    
-  }
-  #editPlages > div > form > fieldset{
-    padding: 1rem 3rem ;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    margin: 0 auto;
-    gap:.5rem;
-  }
-  fieldset{ 
-    color: var(--primary);
-    border: .4px solid var(--primary);
-    border-radius: 15px;
-  }
-
-  legend{
-    margin-left: -36%;
-    border: .5px solid var(--primary);
-    border-radius: 5px;
-    padding: 0 .2rem .2rem .2rem;
-  }
-
-  #editPlages > div > form > fieldset > div > span{
-    font-size: 1.3rem;
-    font-weight: 400;
-  }
-
-  #editPlages > div > form > fieldset > div > input[type=number]{
-    width: 40px;
-    /* padding: auto 0 auto 0; */
-    /* text-align: left; */
-    height: 10px;
-    scrollbar-width: none; 
-  }
-
-  #editPlages > div > form > fieldset > input{
-    width: 70px;
-    background: var(--background);
-    color: var(--accent);
-    border: .5px solid var(--accent);
-    border-radius: 8px;
-    padding: 0.3rem 0 ;
-    font-size: 1.1rem;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    transition: background 0.5s, transform 0.2s;
-    margin: .1rem auto;  
-  }
-  #editPlages > div > form > fieldset > input:hover{
-    background-color: var(--success);
-    color: var(--background);
-  }
-  #editPlages > div > form > fieldset > input:active {
-    background: var(--primary);
-    transform: scale(0.97);
-  }
-
-  #closeEdit{
-    display: flex;
-    justify-content: center;
-    font-size: 1.3rem;
-    border-radius: 15px;
-    text-align: center;
-    padding: 0 auto;
-    height: 50px; 
-    margin:0 auto;
-  }
-
-  @keyframes bounce {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-8px); }
-  }
-
-  .range {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  ::-webkit-scrollbar {
-    width: 5px;
-    background: var(--bg);
-    transition: width .5s;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--accent);
-    border-radius: 9px;
-  }
-  ::-webkit-scrollbar:hover{ 
-    width: 12px;
-  }
-  @media screen and (max-width: 470px) {
-    .timePanel{
+    header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 64px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      background: linear-gradient(#0b1020cc, #0b102000);
+      border-bottom: 1px solid #ffffff12;
+      z-index: 50;
+      backdrop-filter: blur(6px);
+    }
+
+    .club,
+    .gallery .ph,
+    .hero,
+    footer,
+    section {
+      position: relative;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
       align-items: center;
     }
-    
-  }
+
+    .brand .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: conic-gradient(from 180deg,
+          var(--pri),
+          var(--acc),
+          var(--hot),
+          var(--pri));
+      box-shadow: var(--glow);
+    }
+
+    .brand h1 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    nav a {
+      margin: 0 10px;
+      opacity: 0.9;
+    }
+
+    nav a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #fff3;
+    }
+
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 92px 18px 120px;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+    }
+
+    .cta,
+    .stat,
+    .stats {
+      display: flex;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid #ffffff1a;
+      border-radius: 22px;
+      padding: 26px;
+      box-shadow: 0 8px 30px #0008;
+      backdrop-filter: saturate(1.2) blur(4px);
+    }
+
+    h2 {
+      font-size: clamp(28px, 3vw, 44px);
+      margin: 0 0 12px;
+    }
+
+    .alert,
+    input,
+    legend {
+      font-size: 1.2rem;
+    }
+
+    p {
+      color: var(--mut);
+      line-height: 1.6;
+    }
+
+    .cta {
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 16px;
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+      box-shadow: 0 6px 14px #0008;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--pri), #00b0ff);
+      color: #001217;
+      box-shadow: 0 0 0 2px #00c7ff55, var(--glow);
+    }
+
+    .btn.ghost {
+      background: 0 0;
+      color: var(--ink);
+      border: 1px solid var(--mut);
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #00b0ff, var(--pri));
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .stats {
+      justify-content: space-around;
+      margin-top: 22px;
+    }
+
+    .stat {
+      min-width: 150px;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px;
+      border: 1px dashed #3dd9ff38;
+      border-radius: 14px;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 1.35em;
+      color: #fff;
+    }
+
+    section {
+      padding: 80px 18px;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .override,
+    .social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .override {
+      flex-direction: column;
+      margin-top: 22px;
+    }
+
+    .override span label {
+      margin-left: 10px;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    input {
+      background-color: transparent;
+      border: none;
+      width: 40px;
+      outline: 0;
+      text-align: center;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .club h3 {
+      margin: 0 0 6px;
+    }
+
+    footer {
+      padding: 60px 18px 90px;
+      background: linear-gradient(180deg,
+          transparent,
+          #0b1020cc 40%,
+          #05070e 100%);
+      border-top: 1px solid #ffffff0f;
+    }
+
+    .social {
+      flex-wrap: wrap;
+    }
+
+    .social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #ffffff22;
+      color: var(--ink);
+      background: var(--glass);
+    }
+
+    .social svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .gallery .ph {
+      aspect-ratio: 16/10;
+      border-radius: 16px;
+      background: #ffffff0f;
+      border: 1px solid #ffffff12;
+    }
+
+    .gallery .ph::after {
+      content: "Ajouter image";
+      position: absolute;
+      inset: auto 6px 6px auto;
+      font-size: 12px;
+      color: #fff9;
+      background: #0006;
+      padding: 4px 8px;
+      border-radius: 10px;
+    }
+
+    .sparkle {
+      text-shadow: 0 0 20px rgba(0, 229, 255, 0.6),
+        0 0 40px rgba(0, 229, 255, 0.2);
+      animation: 5s ease-in-out infinite sparkle;
+      display: inline-block;
+    }
+
+    @keyframes sparkle {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 0 rgba(0, 229, 255, 0));
+      }
+
+      50% {
+        filter: drop-shadow(0 0 14px rgba(0, 229, 255, 0.7));
+      }
+    }
+
+    .pcb {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      opacity: 0.8;
+      pointer-events: none;
+      background: radial-gradient(800px 400px at 20% 10%,
+          #0c1b38 0,
+          transparent 60%);
+      mask: linear-gradient(180deg, #000 50%, transparent 100%);
+    }
+
+    .wave,
+    .waves {
+      inset: auto 0 0 0;
+      height: 220px;
+    }
+
+    .pcb svg {
+      width: 1800px;
+      height: auto;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 0.9;
+    }
+
+    .data-rain::after,
+    .data-rain::before,
+    .waves,
+    canvas.snow {
+      position: fixed;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .trace {
+      fill: none;
+      stroke: #1bd3ff;
+      stroke-width: 2;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 3px #00e5ff88);
+    }
+
+    .trace.dim {
+      stroke: #1086a8;
+    }
+
+    .pulse {
+      stroke-dasharray: 6 12;
+      animation: 3s linear infinite flow;
+    }
+
+    @keyframes flow {
+      to {
+        stroke-dashoffset: -200;
+      }
+    }
+
+    .node {
+      fill: #00ffd0;
+      filter: drop-shadow(0 0 6px #00ffd0aa);
+    }
+
+    .node.blink {
+      animation: 1.8s ease-in-out infinite blink;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0.2;
+      }
+    }
+
+    .wave {
+      position: absolute;
+      opacity: 0.6;
+    }
+
+    .wave svg {
+      width: 200%;
+      height: 100%;
+    }
+
+    .wave:first-child {
+      animation: 14s linear infinite drift;
+    }
+
+    .wave:nth-child(2) {
+      animation: 22s linear infinite reverse drift;
+      opacity: 0.45;
+    }
+
+    .wave:nth-child(3) {
+      animation: 38s linear infinite drift;
+      opacity: 0.3;
+    }
+
+    @keyframes drift {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    canvas.snow {
+      inset: 0;
+      mix-blend-mode: screen;
+      opacity: 1;
+      box-shadow: 0 0 1px initial;
+    }
+
+    .data-rain::after,
+    .data-rain::before {
+      content: "";
+      inset: 0;
+      opacity: 0.35;
+      background: repeating-linear-gradient(to bottom,
+          transparent 0 28px,
+          rgba(0, 255, 200, 0.06) 28px 30px);
+    }
+
+    .data-rain::after {
+      opacity: 0.2;
+      background: radial-gradient(2px 2px at 20% 10%,
+          #00ffd0 50%,
+          transparent 60%),
+        radial-gradient(2px 2px at 70% 30%, #00e5ff 50%, transparent 60%),
+        radial-gradient(2px 2px at 40% 80%, #00ffd0 50%, transparent 60%);
+      filter: blur(0.5px);
+    }
+
+    .card.glow {
+      box-shadow: 0 0 0 1px #00e5ff33, 0 0 80px #00e5ff12 inset;
+    }
+
+    .alert {
+      color: var(--hot);
+    }
+
+    fieldset {
+      border: 1px solid var(--pri);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    legend {
+      margin: 1rem;
+    }
+
+    .ajouter {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .ajouter .debut,
+    .ajouter .fin {
+      margin-left: 3rem;
+    }
+
+    .ajouter .fin {
+      margin-left: 4.4rem;
+    }
+
+    .ajouter .debut input,
+    .ajouter .fin input {
+      border-bottom: 1px solid var(--pri);
+    }
+
+    .modifierPlageHoraire {
+      position: absolute;
+      cursor: pointer;
+      right: 20px;
+      top: 20px;
+    }
+
+    .edit_plage_zone {
+      margin-left: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .plage {
+      display: flex;
+      flex-direction: column;
+    }
   </style>
 
   <body> 
-      <div class='container' id="container">
-          <div></div>
-          <h1>Contrôle Appareil</h1>
-          <div class='timePanel'>
+      <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <h1>GACI • <span class="mono">Module embarque</span></h1>
+    </div>
+  </header>
 
-              <div class='time-section'>
-                  <span class='label'>Heure actuelle :</span>
-                  <div id='currentTime' class='countdown'></div>
-              </div>
-              <div class='control-section'>
-                  <span class='label'>Plage horaire autorisee :</span>
-                  <div class='plageHoraire'>
-                      <div id='allowedRange' style='font-weight:700; color:var(--primary);'>
-                          )rawliteral";
-                          for (uint8_t i = 0; i < nPlages; i++) {
-                            page += "<span>";
-                            page += String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → ";
-                            page += String(plages[i].heure_fin)   + "h" + String(plages[i].minute_fin);
-                            page += "</span>";
-                          }
-                          page += R"rawliteral(
-                      </div>
-                      <span class='modifierPlageHoraire' id='openEdit'><span>🖊</span></span>
-                  </div>
-              </div>
-
+  <!-- ====== HERO ====== -->
+  <section id="acceuil" class="hero">
+    <div class="hero-inner">
+      <div class="card glow">
+        <h2>
+          Controler vos appareil avec l'<span class="sparkle">IoT</span>
+        </h2>
+        <p>
+          Economiser de l'énergie, de l'<b>argent</b> en
+          <b>controlant</b> l'allimentation de vos
+          <b>appareils</b> électroménagers avec l'<b>IoT</b> et l'Arduino.
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <b id="currentTime"><span class="alert">⁉️ </span>•• : •• : ••</b>
           </div>
-          <form action='/override' method='GET' class='minutes'>
-              <span class='label'>Allumer pendant (minutes) :</span>
-              <input type='number' name='minutes' id='minutesInput' min='1' max='180' placeholder='Duree en minutes'>
-              <button id='powerBtn' type="submit">Allumer la l'appareil</button>
-          </form> 
+          <div class="stat">
+            <b id="date"><span class="alert">⁉️ </span>•• / •• / ••••</b>
+          </div>
+          <div class="stat" style="flex-direction: row; justify-content: center; gap: 3px">
+            -<b id="stat-3">0 </b> min
+          </div>
+        </div>
+        <div class="plages">
+          <br />
+          <h2>Plages autoriser</h2>
+          <div class="edit_plage_zone">
+            <div class="plage">
+              )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span>" ;
+               page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ;
+               page +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); page +="</span>" ;
+                } page +=R"rawliteral( </div>
+                <button class="btn primary" id="openEdit" style="height: 50px">
+                  🖊
+                </button>
+            </div>
+          </div>
+          <form action="/override" method="GET" class="override">
+            <span><label for="override">Allumer l'appareil pendant
+                <input type="number" value="0" name="minutes" id="minutesInput" min="1" max="180" />
+                minutes</label></span>
+            <button class="btn primary">Allumez</button>
+          </form>
+        </div>
       </div>
-
-      <div id='editPlages'>
-          <h2>Modifier les plages horaires</h2>
-          <div class='plageHoraireEdit'>)rawliteral";
-
-    for (uint8_t i = 0; i < nPlages; i++) {
-      page += "<span>";
-      page += String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → ";
-      page += String(plages[i].heure_fin)   + "h" + String(plages[i].minute_fin);
-      page += " <a href='/del?id=" + String(i) + "'>🗑</a>";
-      page += "</span>";
-    }
-
-    page += R"rawliteral(
-              <form action='/add' method='GET'>
-                  <fieldset>
-                      <legend>ajouter plage</legend>
-
-                      <div>
-                          <span>Debut :</span> 
-                          <input type='number' name='h' min='0' max='23' placeholder="H"> <span>:</span>
-                          <input type='number' name='m' min='0' max='59' placeholder="M"> <br>
-                      </div>
-                      <div>
-                          <span>Fin : </span>
-                          <input type='number' name='hf' min='0' max='23' placeholder="H"> <span>:</span>
-                          <input type='number' name='mf' min='0' max='59' placeholder="M"><br>
-                      </div>
-                      <input type='submit' value='Ajouter'>
-                  </fieldset>
+  </section>
+  
+  <section id="edit_plages" class="hero" style="display: none">
+    <div class="hero-inner">
+      <div class="card glow">
+        <h2><b>Modifier</b> les plages autorisées</h2>
+        <button class="modifierPlageHoraire btn ghost" id="closeEdit">
+          Fermer
+        </button>
+        <div id="editPlages">
+          <div class="plageHoraireEdit">
+            )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span>" ;
+             page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; 
+             page +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); 
+             page +="<a href='/del?id=" + String(i) + "'>🗑</a>" ; page +="</span>" ; } 
+             page +=R"rawliteral( 
+                <form action="/add" method="GET">
+              <fieldset>
+                <legend>ajouter plage</legend>
+                <div class="ajouter">
+                  <div class="debut">
+                    <span>Debut :</span>
+                    <input type="number" name="h" min="0" max="23" placeholder="H" />
+                    <span>:</span>
+                    <input type="number" name="m" min="0" max="59" placeholder="M" />
+                    <br />
+                  </div>
+                  <div class="fin">
+                    <span>Fin : </span>
+                    <input type="number" name="hf" min="0" max="23" placeholder="H" />
+                    <span>:</span>
+                    <input type="number" name="mf" min="0" max="59" placeholder="M" /><br />
+                  </div>
+                  <button class="btn primary">Ajouter</button>
+                </div>
+              </fieldset>
               </form>
           </div>
-          <span class='modifierPlageHoraire' id='closeEdit'>Fermer</span>
+        </div>
       </div>
-  </body>
-  <script>
-  const openEdit = document.getElementById('openEdit');
-  const closeEdit = document.getElementById('closeEdit');
-  const editDisplay = document.getElementById('editPlages');
-  const homeDisplay = document.getElementById('container');
+    </div>
+  </section>
+</body>
+<script>
+  // ===== UTIL =====
+  const qs = (s) => document.querySelector(s);
+  const qsa = (s) => Array.from(document.querySelectorAll(s));
 
-  // ⚡ Recuperation heure depuis l’ESP toutes les secondes
+  // ===== SNOW =====
+  const snow = (() => {
+    const canvas = document.getElementById("snow");
+    const ctx = canvas.getContext("2d");
+    let W = (canvas.width = innerWidth);
+    let H = (canvas.height = innerHeight);
+    let flakes = [];
+    const baseCount = Math.min(
+      220,
+      Math.max(100, Math.floor((W * H) / 25000))
+    );
+
+    function reset() {
+      W = canvas.width = innerWidth;
+      H = canvas.height = innerHeight;
+      const count = Math.floor(baseCount * 4); //quantite des flocons
+      flakes = new Array(count).fill(0).map(() => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 2.2 + 0.6,
+        v: Math.random() * 0.6 + 0.2,
+        w: Math.random() * 0.7 + 0.1,
+        o: Math.random() * 0.5 + 0.3,
+      }));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "lighter";
+      for (const f of flakes) {
+        f.y += f.v * 1; //vitesse de tomber des flocons
+        f.x += Math.sin(f.y * 0.02) * f.w;
+        if (f.y > H + 10) {
+          f.y = -10;
+          f.x = Math.random() * W;
+        }
+        ctx.globalAlpha = f.o;
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fillStyle = "#bff7ff";
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    addEventListener("resize", reset);
+    reset();
+    draw();
+  })();
+
+  const hours = document.getElementById("currentTime");
+  const date = document.getElementById("date");
+  const timer = setInterval(() => {
+    const currentDate = new Date();
+    hours.textContent =
+      currentDate.getHours() +
+      " : " +
+      currentDate.getMinutes() +
+      " : " +
+      currentDate.getSeconds();
+    date.textContent =
+      currentDate.getDate() +
+      " / " +
+      (currentDate.getMonth() + 1) +
+      " / " +
+      currentDate.getFullYear();
+  }, 1000);
+
+  const openEdit = document.getElementById("openEdit");
+  const closeEdit = document.getElementById("closeEdit");
+  const editDisplay = document.getElementById("edit_plages");
+  const homeDisplay = document.getElementById("acceuil");
+ 
   function updateTime() {
-    fetch('/time')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('currentTime').textContent = data;
+    fetch("/time")
+      .then((response) => response.text())
+      .then((data) => {
+        document.getElementById("currentTime").textContent = data;
       })
-      .catch(err => console.error("Erreur maj heure :", err));
+      .catch((err) => console.error("Erreur maj heure :", err));
   }
   setInterval(updateTime, 1000);
 
   function updateText() {
-    fetch('/allumer')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('powerBtn').textContent = data;
-      }).catch(err => console.error("Erreur text :", err));
+    fetch("/allumer")
+      .then((response) => response.text())
+      .then((data) => {
+        document.getElementById("powerBtn").textContent = data;
+      })
+      .catch((err) => console.error("Erreur text :", err));
   }
   setInterval(updateText, 1000);
 
   // Gestion de l’edition des plages
-  openEdit.addEventListener('click', ()=>{
-    editDisplay.style.display = 'block';
-    homeDisplay.style.filter = 'blur(15px)';
-    homeDisplay.style.cursor = 'not-allowed';
+  openEdit.addEventListener("click", () => {
+    editDisplay.style.display = "block";
+    homeDisplay.style.display = "none";
   });
 
-  closeEdit.addEventListener('click', ()=>{
-    editDisplay.style.display = 'none';
-    homeDisplay.style.filter = 'none';
+  closeEdit.addEventListener("click", () => {
+    editDisplay.style.display = "none";
+    homeDisplay.style.display = "block";
   });
+</script>
 
-  </script>
-
-  </html> 
+</html>
   )rawliteral";
 
     server.send(200, "text/html", page);
