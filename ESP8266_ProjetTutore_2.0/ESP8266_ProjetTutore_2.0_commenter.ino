@@ -229,27 +229,7 @@ bool chargerPlages() {                                     // Fonction pour char
         <title>Contrôle Television Reglemente</title> 
     </head>
 
-  <style>
-    body,
-   a {
-    margin: 0 10px;
-    opacity: 0.9;
-    text-decoration: none;
-    color: var(--hot);
-    font-size: 1.5rem;
-    transition: .2s;
-  }
-
-   a:hover { 
-    text-shadow: 0 0 1rem var(--bg),0 0 2rem var(--hot);  
-    font-size: 1.7rem;
-  }
-
-    .club,
-    .gallery .ph {
-      overflow: hidden;
-    }
-
+  <style>  
     input,
     legend {
       color: var(--pri);
@@ -289,6 +269,7 @@ bool chargerPlages() {                                     // Fonction pour char
     }
 
     body {
+      color: var(--ink); 
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
         Inter, Arial, sans-serif;
@@ -312,9 +293,7 @@ bool chargerPlages() {                                     // Fonction pour char
       z-index: 50;
       backdrop-filter: blur(6px);
     }
-
-    .club,
-    .gallery .ph,
+ 
     .hero,
     footer,
     section {
@@ -344,14 +323,19 @@ bool chargerPlages() {                                     // Fonction pour char
       margin: 0;
     }
 
-    nav a {
+
+    a {
       margin: 0 10px;
       opacity: 0.9;
+      text-decoration: none;
+      color: var(--hot);
+      font-size: 1.5rem;
+      transition: .2s;
     }
 
-    nav a:hover {
-      color: #fff;
-      text-shadow: 0 0 10px #fff3;
+    a:hover { 
+      text-shadow: 0 0 1rem var(--bg),0 0 2rem var(--hot);  
+      font-size: 1.7rem;
     }
 
     .hero {
@@ -457,6 +441,16 @@ bool chargerPlages() {                                     // Fonction pour char
       color: #fff;
     }
 
+      @media  screen and (max-width: 560px) {
+    .stats{
+      flex-direction: column;
+      gap:1rem;
+    }
+    .wave{
+      display: none;
+    }
+  }
+
     section {
       padding: 80px 18px;
     }
@@ -472,8 +466,7 @@ bool chargerPlages() {                                     // Fonction pour char
       gap: 16px;
     }
 
-    .override,
-    .social {
+    .override{
       display: flex;
       gap: 12px;
     }
@@ -502,11 +495,7 @@ bool chargerPlages() {                                     // Fonction pour char
     input[type="number"]::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
-    }
-
-    .club h3 {
-      margin: 0 0 6px;
-    }
+    } 
 
     footer {
       padding: 60px 18px 90px;
@@ -517,59 +506,11 @@ bool chargerPlages() {                                     // Fonction pour char
       border-top: 1px solid #ffffff0f;
     }
 
-    .social {
-      flex-wrap: wrap;
-    }
-
-    .social a {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      border: 1px solid #ffffff22;
-      color: var(--ink);
-      background: var(--glass);
-    }
-
-    .social svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
     @media (max-width: 900px) {
       .hero-inner {
         grid-template-columns: 1fr;
-      }
-
-      .gallery {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .gallery .ph {
-      aspect-ratio: 16/10;
-      border-radius: 16px;
-      background: #ffffff0f;
-      border: 1px solid #ffffff12;
-    }
-
-    .gallery .ph::after {
-      content: "Ajouter image";
-      position: absolute;
-      inset: auto 6px 6px auto;
-      font-size: 12px;
-      color: #fff9;
-      background: #0006;
-      padding: 4px 8px;
-      border-radius: 10px;
-    }
+      } 
+    } 
 
     .sparkle {
       text-shadow: 0 0 20px rgba(0, 229, 255, 0.6),
@@ -849,7 +790,7 @@ bool chargerPlages() {                                     // Fonction pour char
         <p>
           Economiser de l'énergie, de l'<b>argent</b> en
           <b>controlant</b> l'allimentation de vos
-          <b>appareils</b> électroménagers avec l'<b>IoT</b> et l'Arduino.
+          <b>appareils</b> avec l'<b>IoT</b> et l'Arduino.
         </p>
         <div class="stats">
           <div class="stat">
@@ -872,7 +813,7 @@ bool chargerPlages() {                                     // Fonction pour char
                page +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); page +="</span>" ;
                 } page +=R"rawliteral( </div>
                 <button class="btn primary" id="openEdit" style="height: 50px">
-                  🖊
+                  ⚙️
                 </button>
             </div>
           </div>
