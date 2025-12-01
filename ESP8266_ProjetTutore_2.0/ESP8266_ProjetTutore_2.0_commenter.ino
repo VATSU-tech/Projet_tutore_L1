@@ -775,7 +775,58 @@ bool chargerPlages() {                                     // Fonction pour char
     }
   </style>
 
-  <body> 
+ <body class="data-rain">
+  <!-- ====== PCB BACKGROUND ====== -->
+  <div class="pcb" aria-hidden="true">
+    <svg viewBox="0 0 1200 800">
+      <!-- Traces -->
+      <path class="trace dim" d="M40 120 C 240 60, 380 240, 560 140 S 840 40, 1140 120" />
+      <path class="trace pulse" d="M60 280 C 240 200, 420 360, 600 260 S 900 200, 1140 260" />
+      <path class="trace" d="M100 420 C 180 380, 260 520, 360 460 S 540 360, 760 440 S 980 560, 1120 520" />
+      <path class="trace pulse" d="M80 600 C 220 540, 380 700, 560 620 S 820 520, 1100 620" />
+
+      <!-- Nodes -->
+      <circle class="node blink" cx="120" cy="120" r="3" />
+      <circle class="node" cx="360" cy="170" r="3" />
+      <circle class="node blink" cx="560" cy="140" r="4" />
+      <circle class="node" cx="920" cy="90" r="3" />
+      <circle class="node blink" cx="180" cy="420" r="4" />
+      <circle class="node" cx="360" cy="460" r="3" />
+      <circle class="node blink" cx="760" cy="440" r="4" />
+      <circle class="node" cx="980" cy="560" r="3" />
+      <circle class="node blink" cx="220" cy="600" r="4" />
+      <circle class="node" cx="560" cy="620" r="3" />
+      <circle class="node blink" cx="980" cy="620" r="4" />
+    </svg>
+  </div>
+
+  <!-- ====== WAVES ====== -->
+  <div class="waves" aria-hidden="true">
+    <div class="wave">
+      <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="#0c1a35" fill-opacity="0.8"
+          d="M0,160L60,144C120,128,240,96,360,117.3C480,139,600,213,720,229.3C840,245,960,203,1080,170.7C1200,139,1320,117,1380,106.7L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
+        </path>
+      </svg>
+    </div>
+    <div class="wave">
+      <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="#0a1530" fill-opacity="0.7"
+          d="M0,64L80,69.3C160,75,320,85,480,117.3C640,149,800,203,960,208C1120,213,1280,171,1360,149.3L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
+        </path>
+      </svg>
+    </div>
+    <div class="wave">
+      <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="#071026" fill-opacity="0.65"
+          d="M0,32L48,69.3C96,107,192,181,288,202.7C384,224,480,192,576,165.3C672,139,768,117,864,112C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+        </path>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ====== SNOW ====== -->
+  <canvas class="snow" id="snow"></canvas>
       <header>
     <div class="brand">
       <div class="logo" aria-hidden="true"></div>
@@ -929,18 +980,8 @@ bool chargerPlages() {                                     // Fonction pour char
   const date = document.getElementById("date");
   const timer = setInterval(() => {
     const currentDate = new Date();
-    hours.textContent =
-      currentDate.getHours() +
-      " : " +
-      currentDate.getMinutes() +
-      " : " +
-      currentDate.getSeconds();
-    date.textContent =
-      currentDate.getDate() +
-      " / " +
-      (currentDate.getMonth() + 1) +
-      " / " +
-      currentDate.getFullYear();
+    hours.textContent = currentDate.getHours() + " : " + currentDate.getMinutes() + " : " + currentDate.getSeconds();
+    date.textContent = currentDate.getDate() + " / " + (currentDate.getMonth() + 1) + " / " + currentDate.getFullYear();
   }, 1000);
 
   const openEdit = document.getElementById("openEdit");
@@ -948,15 +989,15 @@ bool chargerPlages() {                                     // Fonction pour char
   const editDisplay = document.getElementById("edit_plages");
   const homeDisplay = document.getElementById("acceuil");
  
-  function updateTime() {
-    fetch("/time")
-      .then((response) => response.text())
-      .then((data) => {
-        document.getElementById("currentTime").textContent = data;
-      })
-      .catch((err) => console.error("Erreur maj heure :", err));
-  }
-  setInterval(updateTime, 1000);
+  // function updateTime() {
+  //   fetch("/time")
+  //     .then((response) => response.text())
+  //     .then((data) => {
+  //       document.getElementById("currentTime").textContent = data;
+  //     })
+  //     .catch((err) => console.error("Erreur maj heure :", err));
+  // }
+  // setInterval(updateTime, 1000);
 
   function updateText() {
     fetch("/allumer")
