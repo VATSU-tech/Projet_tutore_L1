@@ -449,6 +449,19 @@ bool chargerPlages() {                                     // Fonction pour char
     .wave{
       display: none;
     }
+        ::-webkit-scrollbar {
+      color: var(--pri);
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg); 
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--pri);
+      border-radius: 12px;
+    }
   }
 
     section {
@@ -717,7 +730,9 @@ bool chargerPlages() {                                     // Fonction pour char
 
     .plage {
       display: flex;
+      gap:.5rem;
       flex-direction: column;
+      padding-bottom: 1rem;
     }
   </style>
 
