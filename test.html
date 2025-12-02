@@ -1,436 +1,632 @@
-  <!DOCTYPE html>
-  <html lang='fr'>     
-  <head>
-      <meta charset='UTF-8'>
-      <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-      <title>Contrôle Television Reglemente</title> 
-  </head>
-  <style>
-  /* Variables CSS pour les couleurs et animations */
-  :root {
-    --background: #444444;
-    --primary: #9598bf;
-    /* --primary: #2b2d42; */
-    --secondary: #8d99ae;
-    --accent: #9598bf;
-    --success: #8d99ae; 
-    /* --bg: #edf2f4; */
-    --bg: #272828;
-    --text: #222;
-    --shadow: 0 4px 24px rgba(44, 62, 80, 0.15);
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    transition: background 0.5s;
-  }
-
-  .container { 
-    background: var(--background);
-    box-shadow:0 0 10px var(--primary);
-    border-radius: 20px;
-    padding: 2rem 2.5rem;
-    margin-top: 3rem;
-    width: 100%;
-    max-width: 480px;
-    animation: fadeIn 1.2s cubic-bezier(.42,0,.58,1); 
-  }
-  .timePanel{
-    display: flex;
-    justify-content: space-evenly;
-  } 
-  #allowedRange{
-    display: flex;
-    flex-direction: column;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  h1 {
-    color: var(--primary);
-    text-align: center;
-    margin-bottom: 1.2rem;
-    font-size: 2.2rem;
-    letter-spacing: 2px;
-    animation: popIn 1s;
-  }
-
-  @keyframes popIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    80% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); }
-  }
-
-  .time-section, .control-section, .stats-section {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-  .plageHoraire{
-    display: flex;
-    justify-content: space-between;
-  }
-  .modifierPlageHoraire{
-    display: flex;
-    align-items: center;
-    color: var(--primary);
-    border: .1px solid var(--primary);
-    border-radius: 50%;
-    height: 40px;
-    padding: 0 .7rem;
-    transform: scale(.65);
-    transition: .2s;
-    user-select: none;
-  }
-
-  .modifierPlageHoraire > span {
-    transform: scale(1.4);
-  }
-
-  .modifierPlageHoraire:hover{
-    transform: scale(.8);
-    cursor: pointer;
-    box-shadow:  0 0 10px var(--primary);
-    background-color: var(--primary);
-    color: var(--bg);
-    font-weight: 700;
-  }
-
-  .label {
-    font-weight: 600;
-    color: var(--secondary);
-    margin-bottom: 0.2rem;
-  }input[type='number']{
-    text-align: center;
-    width: 39%;
-  }
-
-  input[type='number'], input[type='time'] {
-    background-color: var(--background);
-    color: var(--primary);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--secondary);
-    font-size: 1.1rem;
-    transition: border 0.3s;
-  }
-  input:focus {
-    border-color: var(--text);
-    color: var(--text);
-    outline: none;
-  }
-
-  button {
-    width: 100%;
-    background: var(--background);
-    color: var(--accent);
-    border: .5px solid var(--accent);
-    border-radius: 8px;
-    padding: 0.7rem 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    transition: background 0.5s, transform 0.2s;
-    margin: 4% 0 0 0;
-  }
-  button:hover{
-    background-color: var(--success);
-    color: var(--background);
-  }
-  button:active {
-    background: var(--primary);
-    transform: scale(0.97);
-  }
-
-  .status {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--success);
-    margin-top: 0.5rem;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0% { color: var(--success); }
-    30% { color: var(--accent); }
-    100% { color: var(--success); }
-  }
-
-  .countdown, .total-on {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-    text-align: center;
-    margin-top: 0.5rem;
-    letter-spacing: 1px;
-    animation: bounce 1.2s infinite alternate;
-  }
-
-  .minutes, #powerBtn{
-    margin: 1% 5%;
-  }
-
-  .plageHoraireEdit{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-  }
-
-  #editPlages{
-    display: none;
-    color: var(--primary);
-    position:absolute;
-    top: 48px;
-    left: 50%;
-    transform: translateX( -50%);
-    background-color: var(--background);
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow:0 0 10px var(--primary);
-    transition: 1s;
-    animation: fadenIn  1.2s cubic-bezier(.42,0,.58,1);
-  }
-
-  #editPlages > div > span{
-    font-size: 1.5rem;
-    font-weight: 450; 
-  }
-
-  #editPlages > div > span a{
-    text-decoration: none;
-    color: red;
-    margin: 0 0 0 1rem;
-    font-size: 1.8rem;
-    animation: delet 2s infinite forwards cubic-bezier(.42,0,.58,1);
-  }
-
-  @keyframes delet {
-    0%,100%{ text-shadow:0 0 0 red;}
-    50%{text-shadow:0 0 20px red;}
-    
-  }
-  #editPlages > div > form > fieldset{
-    padding: 1rem 3rem ;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    margin: 0 auto;
-    gap:.5rem;
-  }
-  fieldset{ 
-    color: var(--primary);
-    border: .4px solid var(--primary);
-    border-radius: 15px;
-  }
-
-  legend{
-    margin-left: -36%;
-    border: .5px solid var(--primary);
-    border-radius: 5px;
-    padding: 0 .2rem .2rem .2rem;
-  }
-
-  #editPlages > div > form > fieldset > div > span{
-    font-size: 1.3rem;
-    font-weight: 400;
-  }
-
-  #editPlages > div > form > fieldset > div > input[type=number]{
-    width: 40px;
-    /* padding: auto 0 auto 0; */
-    /* text-align: left; */
-    height: 10px;
-    scrollbar-width: none; 
-  }
-
-  #editPlages > div > form > fieldset > input{
-    width: 70px;
-    background: var(--background);
-    color: var(--accent);
-    border: .5px solid var(--accent);
-    border-radius: 8px;
-    padding: 0.3rem 0 ;
-    font-size: 1.1rem;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    transition: background 0.5s, transform 0.2s;
-    margin: .1rem auto;  
-  }
-  #editPlages > div > form > fieldset > input:hover{
-    background-color: var(--success);
-    color: var(--background);
-  }
-  #editPlages > div > form > fieldset > input:active {
-    background: var(--primary);
-    transform: scale(0.97);
-  }
-
-  #closeEdit{
-    display: flex;
-    justify-content: center;
-    font-size: 1.3rem;
-    border-radius: 15px;
-    text-align: center;
-    padding: 0 auto;
-    height: 50px; 
-    margin:0 auto;
-  }
-
-  @keyframes bounce {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-8px); }
-  }
-
-  .range {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  ::-webkit-scrollbar {
-    width: 5px;
-    background: var(--bg);
-    transition: width .5s;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--accent);
-    border-radius: 9px;
-  }
-  ::-webkit-scrollbar:hover{ 
-    width: 12px;
-  }
-  @media screen and (max-width: 470px) {
-    .timePanel{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-  }
-  </style>
-
-  <body> 
-      <div class='container' id="container">
-          <div></div>
-          <h1>Contrôle Appareil</h1>
-          <div class='timePanel'>
-
-              <div class='time-section'>
-                  <span class='label'>Heure actuelle :</span>
-                  <div id='currentTime' class='countdown'></div>
-              </div>
-              <div class='control-section'>
-                  <span class='label'>Plage horaire autorisee :</span>
-                  <div class='plageHoraire'>
-                      <div id='allowedRange' style='font-weight:700; color:var(--primary);'>
-                          <!-- )rawliteral";
-                          for (uint8_t i = 0; i < nPlages; i++) {
-                            page += "<span>";
-                            page += String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → ";
-                            page += String(plages[i].heure_fin)   + "h" + String(plages[i].minute_fin);
-                            page += "</span>";
-                          }
-                          page += R"rawliteral( -->
-                      </div>
-                      <span class='modifierPlageHoraire' id='openEdit'><span>🖊</span></span>
-                  </div>
-              </div>
-
-          </div>
-          <form action='/override' method='GET' class='minutes'>
-              <span class='label'>Allumer pendant (minutes) :</span>
-              <input type='number' name='minutes' id='minutesInput' min='1' max='180' placeholder='Duree en minutes'>
-              <button id='powerBtn' type="submit">Allumer la l'appareil</button>
-          </form> 
-      </div>
-
-      <div id='editPlages'>
-          <h2>Modifier les plages horaires</h2>
-          <div class='plageHoraireEdit'>
-            <!-- )rawliteral";
-
-    for (uint8_t i = 0; i < nPlages; i++) {
-      page += "<span>";
-      page += String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → ";
-      page += String(plages[i].heure_fin)   + "h" + String(plages[i].minute_fin);
-      page += " <a href='/del?id=" + String(i) + "'>🗑</a>";
-      page += "</span>";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boutons interactifs</title>
+<style>
+    body {
+        background: #797676;
+        font-family: Arial, sans-serif;
+        padding: 40px;
     }
 
-    page += R"rawliteral( -->
-              <form action='/add' method='GET'>
-                  <fieldset>
-                      <legend>ajouter plage</legend>
+    .container {
+        display: flex;
+        flex-direction: row;
+        gap: 25px;
+    }
 
-                      <div>
-                          <span>Debut :</span> 
-                          <input type='number' name='h' min='0' max='23' placeholder="H"> <span>:</span>
-                          <input type='number' name='m' min='0' max='59' placeholder="M"> <br>
-                      </div>
-                      <div>
-                          <span>Fin : </span>
-                          <input type='number' name='hf' min='0' max='23' placeholder="H"> <span>:</span>
-                          <input type='number' name='mf' min='0' max='59' placeholder="M"><br>
-                      </div>
-                      <input type='submit' value='Ajouter'>
-                  </fieldset>
-              </form>
-          </div>
-          <span class='modifierPlageHoraire' id='closeEdit'>Fermer</span>
-      </div>
-  </body>
-  <script>
-  const openEdit = document.getElementById('openEdit');
-  const closeEdit = document.getElementById('closeEdit');
-  const editDisplay = document.getElementById('editPlages');
-  const homeDisplay = document.getElementById('container');
- 
-  // ⚡ Recuperation heure depuis l’ESP toutes les secondes
-//   function updateTime() {
-//     fetch('/time')
-//       .then(response => response.text())
-//       .then(data => {
-//         document.getElementById('currentTime').textContent = data;
-//       })
-//       .catch(err => console.error("Erreur maj heure :", err));
-//   }
-//   setInterval(updateTime, 1000);
+    /* ===========================
+       BOUTON 2 — SLIDE SWITCH
+       =========================== */
+    .btn2 {
+        width: 70px;
+        height: 35px;
+        background: #777;
+        border-radius: 50px;
+        position: relative;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+    .btn2:active {
+        transform: scale(0.9);
+    }
+    .btn2::after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: #fff;
+        border-radius: 50%;
+        top: 2.5px;
+        left: 3px;
+        transition: 0.25s;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .btn2.active {
+        background: #2196F3;
+    }
+    .btn2.active::after {
+        left: 36px;
+    }
 
-//   function updateText() {
-//     fetch('/allumer')
-//       .then(response => response.text())
-//       .then(data => {
-//         document.getElementById('powerBtn').textContent = data;
-//       }).catch(err => console.error("Erreur text :", err));
-//   }
-//   setInterval(updateText, 1000);
+</style>
+</head>
+<body>
 
-  // Gestion de l’edition des plages
-  openEdit.addEventListener('click', ()=>{
-    editDisplay.style.display = 'block';
-    homeDisplay.style.filter = 'blur(15px)';
-    homeDisplay.style.cursor = 'not-allowed';
-  });
+<h2>Boutons avec différents designs et états</h2>
+<div class="container"> 
 
-  closeEdit.addEventListener('click', ()=>{
-    editDisplay.style.display = 'none';
-    homeDisplay.style.filter = 'none';
-  });
+    <div class="btn2"></div> 
 
-  </script>
+</div>
 
-  </html> 
+<script>
+    // Fonction générique pour activer/désactiver
+    function toggle(btn) {
+        btn.classList.toggle("active");
+    } 
+
+    document.querySelector('.btn2').addEventListener('click', function () {
+        toggle(this);
+    }); 
+</script>
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<div class="sw2"></div>
+
+<style>
+.sw2 {
+  width: 70px; height: 35px;
+  background:#e0e0e0;
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+  transition: .25s;
+  box-shadow: inset 3px 3px 7px #b8b8b8,
+              inset -3px -3px 7px #ffffff;
+}
+.sw2::after {
+  content:""; position:absolute;
+  width:28px; height:28px;
+  top:3.5px; left:4px;
+  background:#e0e0e0;
+  border-radius:50%;
+  transition:.3s;
+  box-shadow: 3px 3px 7px #b8b8b8,
+              -3px -3px 7px #ffffff;
+}
+.sw2.active::after {
+  left: 38px;
+}
+.sw2.active {
+  background:#d0ffd0;
+}
+</style>
+
+<script>
+document.querySelector('.sw2').onclick = function(){ this.classList.toggle('active'); }
+</script>
+
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+ <div class="sw3"></div>
+
+<style>
+.sw3 {
+  width:80px; height:40px;
+  background:#222;
+  border-radius:40px;
+  position:relative;
+  cursor:pointer;
+  box-shadow: inset 0 0 10px #000;
+  transition:.3s;
+}
+.sw3::after {
+  content:""; position:absolute;
+  width:32px; height:32px;
+  top:4px; left:4px;
+  border-radius:50%;
+  background:#555;
+  transition:.3s;
+  box-shadow:0 0 15px transparent;
+}
+.sw3.active {
+  background:#0f0;
+  box-shadow: 0 0 25px #0f0;
+}
+.sw3.active::after {
+  left:44px;
+  background:white;
+  box-shadow:0 0 20px #0f0;
+}
+</style>
+
+<script>
+document.querySelector('.sw3').onclick = function(){ this.classList.toggle('active'); }
+</script>
+
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+ <div class="sw4"></div>
+
+<style>
+.sw4 {
+  width:80px; height:40px;
+  background:#444;
+  border-radius:40px;
+  position:relative; cursor:pointer;
+  transition:.3s;
+  color:white; font-size:20px;
+}
+.sw4::before {
+  content:"🌙";
+  position:absolute; left:10px; top:9px;
+  transition:.3s;
+}
+.sw4::after {
+  content:"☀️";
+  position:absolute; right:10px; top:9px;
+  opacity:0; transition:.3s;
+}
+.sw4.active {
+  background:#ffca28;
+}
+.sw4.active::before { opacity:0; }
+.sw4.active::after { opacity:1; }
+</style>
+
+<script>
+document.querySelector('.sw4').onclick = function(){ this.classList.toggle('active'); }
+</script>
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+ <div class="sw5"></div>
+
+<style>
+.sw5 {
+  width:90px; height:45px;
+  background:#3498db;
+  border-radius:45px;
+  position:relative; cursor:pointer;
+  overflow:hidden; transition:.3s;
+}
+.sw5::after {
+  content:"";
+  position:absolute;
+  width:45px; height:45px;
+  background:white;
+  top:0; left:0;
+  border-radius:50%;
+  transition:.4s cubic-bezier(.4,1.4,.6,1);
+}
+.sw5.active::after { left:45px; }
+.sw5.active { background:#2ecc71; }
+</style>
+
+<script>
+document.querySelector('.sw5').onclick = function(){ this.classList.toggle('active'); }
+</script>
+<!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+ <div class="sw6"></div>
+
+<style>
+.sw6 {
+  width:85px; height:40px;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(10px);
+  border:2px solid rgba(255,255,255,0.4);
+  border-radius:40px;
+  position:relative; cursor:pointer;
+  transition:.3s;
+}
+.sw6::after {
+  content:"";
+  position:absolute;
+  width:32px; height:32px;
+  top:2px; left:3px;
+  background:rgba(255,255,255,0.7);
+  border-radius:50%;
+  transition:.3s;
+  backdrop-filter:blur(5px);
+}
+.sw6.active::after { left:50px; }
+.sw6.active {
+  background:rgba(0,255,150,0.4);
+}
+</style>
+
+<script>
+document.querySelector('.sw6').onclick = function(){ this.classList.toggle('active'); }
+</script>
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+ <div class="sw7"></div>
+
+<style>
+.sw7 {
+  width:80px; height:40px;
+  background:#999;
+  border-radius:40px;
+  position:relative; cursor:pointer;
+}
+.sw7::after {
+  content:"";
+  position:absolute;
+  width:34px; height:34px;
+  top:3px; left:3px;
+  background:white;
+  border-radius:50%;
+  transition:.6s cubic-bezier(.25,1.5,.5,1);
+}
+.sw7.active::after {
+  left:43px;
+}
+.sw7.active {
+  background:#00bcd4;
+}
+</style>
+
+<script>
+document.querySelector('.sw7').onclick = function(){ this.classList.toggle('active'); }
+</script>
+<div class="sw8"></div>
+
+<style>
+.sw8 {
+  width:90px; height:40px;
+  border-radius:40px;
+  background:#ccc;
+  position:relative;
+  cursor:pointer;
+  overflow:hidden;
+}
+.sw8::before {
+  content:"";
+  position:absolute;
+  height:100%;
+  width:0;
+  background:#4caf50;
+  border-radius:40px;
+  transition:.3s;
+}
+.sw8::after {
+  content:"";
+  position:absolute;
+  width:32px; height:32px;
+  top:4px; left:4px;
+  border-radius:50%;
+  background:white;
+  transition:.3s;
+}
+.sw8.active::before { width:100%; }
+.sw8.active::after { left:54px; }
+</style>
+
+<script>
+document.querySelector('.sw8').onclick = function(){ this.classList.toggle('active'); }
+</script>
+<h1>phase 2</h1>
+<div class="fs1"></div>
+
+<style>
+.fs1 {
+  width: 90px; height: 45px;
+  border-radius: 45px;
+  background: linear-gradient(135deg,#222,#333);
+  position: relative; cursor: pointer;
+  overflow: hidden;
+  transition:.3s;
+}
+.fs1::before {
+  content:"";
+  position:absolute;
+  width:100%; height:100%;
+  background:linear-gradient(90deg,#0ff,#00f,#0ff);
+  opacity:0.2;
+  animation: holo 4s linear infinite;
+}
+@keyframes holo {
+  0%{transform:translateX(-100%);}
+  100%{transform:translateX(100%);}
+}
+.fs1::after {
+  content:"";
+  width:36px; height:36px;
+  position:absolute; top:4.5px; left:4.5px;
+  background:rgba(255,255,255,0.8);
+  box-shadow:0 0 12px #0ff;
+  border-radius:50%;
+  transition:.35s;
+}
+.fs1.active::after { left:49px; box-shadow:0 0 18px #0ff; }
+.fs1.active { background:#0dd; }
+</style>
+
+<script>
+document.querySelector('.fs1').onclick=function(){this.classList.toggle('active')}
+</script>
+<div class="fs2"></div>
+
+<style>
+.fs2 {
+  width:95px; height:45px;
+  border-radius:45px;
+  background:#444;
+  cursor:pointer;
+  position:relative;
+  box-shadow:inset 0 0 10px #000;
+}
+.fs2::after {
+  content:"";
+  width:40px; height:40px;
+  position:absolute; top:2.5px; left:2.5px;
+  background:linear-gradient(145deg,#bbb,#888);
+  border-radius:50%;
+  box-shadow: inset 2px 2px 5px #555,
+              inset -2px -2px 5px #eee,
+              0 2px 4px #000;
+  transition:.35s;
+}
+.fs2.active { background:#2ecc71; }
+.fs2.active::after { left:52px; }
+</style>
+
+<script>
+document.querySelector('.fs2').onclick=function(){this.classList.toggle('active')}
+</script>
+<div class="fs3"></div>
+
+<style>
+.fs3 {
+  width:95px; height:45px;
+  position:relative; cursor:pointer;
+  background:#111;
+  border-radius:45px;
+  overflow:hidden;
+}
+.fs3::before {
+  content:""; width:0; height:100%;
+  position:absolute; left:0; top:0;
+  background:linear-gradient(90deg,#0f0,#0ff);
+  opacity:.5; transition:.3s;
+}
+.fs3::after {
+  content:"";
+  width:38px; height:38px;
+  background:white;
+  border-radius:50%;
+  position:absolute; top:3.5px; left:3.5px;
+  box-shadow:0 0 14px #0ff;
+  transition:.25s;
+}
+.fs3.active::before { width:100%; }
+.fs3.active::after { left:53px; box-shadow:0 0 20px #0ff; }
+</style>
+
+<script>
+document.querySelector('.fs3').onclick=function(){this.classList.toggle('active')}
+</script>
+<div class="fs4"></div>
+
+<style>
+.fs4 {
+  width:95px; height:45px;
+  background:rgba(255,255,255,0.1);
+  border:2px solid rgba(255,255,255,0.3);
+  backdrop-filter:blur(15px);
+  border-radius:45px;
+  position:relative; cursor:pointer;
+  transition:.3s;
+}
+.fs4::after {
+  content:"";
+  width:35px; height:35px;
+  background:rgba(255,255,255,0.7);
+  border-radius:50%;
+  position:absolute; top:4px; left:4px;
+  backdrop-filter:blur(10px);
+  transition:.3s;
+}
+.fs4.active { background:rgba(0,255,200,0.3); }
+.fs4.active::after { left:55px; }
+</style>
+
+<script>
+document.querySelector('.fs4').onclick=function(){this.classList.toggle('active')}
+</script>
+<div class="fs5"></div>
+
+<style>
+.fs5 {
+  width:100px; height:50px;
+  background:#333;
+  border-radius:10px;
+  border:3px solid #555;
+  position:relative; cursor:pointer;
+}
+.fs5::after {
+  content:"";
+  width:40px; height:40px;
+  background:linear-gradient(180deg,#eee,#aaa);
+  border-radius:5px;
+  position:absolute; top:5px; left:5px;
+  box-shadow:0 3px 4px #000;
+  transition:.3s;
+}
+.fs5.active::after { left:55px; }
+.fs5.active { background:#2ecc71; }
+</style>
+
+<script>
+document.querySelector('.fs5').onclick=function(){this.classList.toggle('active')}
+</script>
+<div class="fs6"></div>
+
+<style>
+.fs6 {
+  width:95px; height:45px;
+  background:#1a1a1a;
+  border-radius:45px;
+  position:relative; cursor:pointer;
+  box-shadow: inset 0 0 10px #000;
+}
+.fs6::before {
+  content:"";
+  width:100%; height:100%;
+  opacity:0;
+  position:absolute;
+  background:radial-gradient(circle, #00f 10%, transparent 70%);
+  transition:.4s;
+}
+.fs6::after {
+  content:"";
+  width:38px; height:38px;
+  background:linear-gradient(145deg,#eee,#bbb);
+  border-radius:50%;
+  position:absolute; top:3.5px; left:3.5px;
+  box-shadow:
+    inset 1px 1px 3px #999,
+    inset -1px -1px 3px #fff;
+  transition:.3s;
+}
+.fs6.active::after { left:53px; }
+.fs6.active::before { opacity:0.25; }
+</style>
+
+<script>
+document.querySelector('.fs6').onclick=function(){this.classList.toggle('active')}
+</script>
+<div class="fs7"></div>
+
+<style>
+.fs7 {
+  width:100px; height:45px;
+  border-radius:45px;
+  background:#222;
+  position:relative; cursor:pointer;
+  overflow:hidden;
+}
+.fs7::before {
+  content:"";
+  position:absolute;
+  width:0; height:100%;
+  background:linear-gradient(90deg,#0ff,#0f0);
+  opacity:0.35;
+  transition:.25s;
+}
+.fs7::after {
+  content:"";
+  width:40px; height:40px;
+  background:rgba(255,255,255,0.85);
+  border-radius:50%;
+  position:absolute; top:2.5px; left:2.5px;
+  box-shadow:0 0 10px #0ff;
+  transition:.25s;
+}
+.fs7.active::before { width:100%; }
+.fs7.active::after { left:55px; }
+</style>
+
+<script>
+document.querySelector('.fs7').onclick=function(){this.classList.toggle('active')}
+</script>
+<div class="fs8"></div>
+
+<style>
+.fs8 {
+  width:100px; height:45px;
+  border-radius:45px;
+  background:#2a0033;
+  position:relative; cursor:pointer;
+  box-shadow:0 0 12px #ff00ff inset;
+}
+.fs8::after {
+  content:"";
+  position:absolute;
+  width:36px; height:36px;
+  top:4.5px; left:4.5px;
+  background:linear-gradient(145deg,#ffccff,#ff33cc);
+  border-radius:50%;
+  box-shadow:0 0 15px #ff00ff;
+  transition:.3s;
+}
+.fs8.active {
+  background:#7a00ff;
+  box-shadow:0 0 18px #ff00ff inset;
+}
+.fs8.active::after { left:56px; }
+</style>
+
+<script>
+document.querySelector('.fs8').onclick=function(){this.classList.toggle('active')}
+</script>
+<div class="fs9"></div>
+
+<style>
+.fs9 {
+  width:100px; height:45px;
+  border-radius:45px;
+  background:#303030;
+  position:relative; cursor:pointer;
+  border:2px solid #555;
+  overflow:hidden;
+}
+.fs9::before {
+  content:"";
+  position:absolute;
+  width:100%; height:100%;
+  background:url('data:image/svg+xml;utf8,<svg ...>') no-repeat center;
+  opacity:0.1;
+}
+.fs9::after {
+  content:"";
+  width:38px; height:38px;
+  background:linear-gradient(180deg,#ddd,#aaa);
+  border-radius:50%;
+  position:absolute; top:3.5px; left:3.5px;
+  box-shadow:inset 3px 3px 6px #777,
+             inset -3px -3px 6px #fff;
+  transition:.3s;
+}
+.fs9.active::after { left:55px; }
+.fs9.active { background:#0f0; }
+</style>
+
+<script>
+document.querySelector('.fs9').onclick=function(){this.classList.toggle('active')}
+</script>
+<div class="fs10"></div>
+
+<style>
+.fs10 {
+  width:100px; height:45px;
+  border-radius:45px;
+  background:#0a0f2f;
+  position:relative; cursor:pointer;
+  overflow:hidden;
+}
+.fs10::before {
+  content:"";
+  width:0; height:100%;
+  background:linear-gradient(90deg,#00eaff,#0066ff);
+  opacity:.5;
+  position:absolute; left:0; top:0;
+  transition:.3s;
+}
+.fs10::after {
+  content:"";
+  width:38px; height:38px;
+  background:rgba(255,255,255,0.9);
+  border-radius:50%;
+  position:absolute; top:3.5px; left:3.5px;
+  box-shadow:0 0 12px #00eaff;
+  transition:.3s;
+}
+.fs10.active::before { width:100%; }
+.fs10.active::after { left:55px; }
+</style>
+
+<script>
+document.querySelector('.fs10').onclick=function(){this.classList.toggle('active')}
+</script>
+
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+</body>
+</html>
