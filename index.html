@@ -1,301 +1,765 @@
-<!DOCTYPE html>
-<html lang="fr">
+    <!DOCTYPE html>
+      <html lang='fr'>     
+      <head>
+          <meta charset='UTF-8'>
+          <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+          <title>Contrôle Television Reglemente</title> 
+      </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="app.js" defer></script>
-  <title>Connect control • VA</title>
-  <meta name="description"
-    content="UNILUK invite les nouveaux étudiants passionnés d'informatique et d'économie de gestion. Animations: vagues, neige, circuit imprimé lumineux, particules." />
-</head>
- <style>  
-.pcb svg,a{opacity:.9}input,legend{color:var(--pri)}.btn,input,legend{font-weight:700}:root{--bg:#0b1020;--bg2:#0f1733;--pri:#00e5ff;--acc:#00ffa8;--hot:#ff3e7f;--ink:#e6f7ff;--mut:#89a8b3;--card:#111a31cc;--glass:rgba(255, 255, 255, 0.08);--glow:0 0 18px rgba(0, 229, 255, 0.55),0 0 38px rgba(0, 229, 255, 0.25)}*{box-sizing:border-box}body,html{height:100%}body{color:var(--ink);margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Inter,Arial,sans-serif;background:radial-gradient(1200px 700px at 70% -10%,#12224a 0,transparent 60%),linear-gradient(180deg,var(--bg),var(--bg2) 35%,var(--bg) 100%);overflow-x:hidden}header{position:fixed;inset:0 0 auto 0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:linear-gradient(#0b1020cc,#0b102000);border-bottom:1px solid #ffffff12;z-index:50;backdrop-filter:blur(6px)}.hero,footer,section{position:relative}.brand{display:flex;gap:12px;align-items:center}.brand .logo{width:34px;height:34px;border-radius:10px;background:conic-gradient(from 180deg,var(--pri),var(--acc),var(--hot),var(--pri));box-shadow:var(--glow)}.brand h1{font-size:18px;margin:0}a{margin:0 10px;text-decoration:none;color:var(--hot);font-size:1.5rem;transition:.2s}a:hover{text-shadow:0 0 1rem var(--bg),0 0 2rem var(--hot);font-size:1.7rem}.hero{min-height:100svh;display:grid;place-items:center;padding:92px 18px 120px}.hero-inner{max-width:1100px;width:100%;display:grid;grid-template-columns:1.2fr 0.8fr;gap:28px}.cta,.stat,.stats{display:flex}.card{background:var(--card);border:1px solid #ffffff1a;border-radius:22px;padding:26px;box-shadow:0 8px 30px #0008;backdrop-filter:saturate(1.2) blur(4px)}h2{font-size:clamp(28px, 3vw, 44px);margin:0 0 12px}.alert,input,legend{font-size:1.2rem}p{color:var(--mut);line-height:1.6}.cta{gap:12px;flex-wrap:wrap;margin-top:18px}.btn{appearance:none;border:none;border-radius:16px;padding:12px 18px;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 6px 14px #0008}.btn.primary{background:linear-gradient(135deg,var(--pri),#00b0ff);color:#001217;box-shadow:0 0 0 2px #00c7ff55,var(--glow)}.btn.ghost{background:0 0;color:var(--ink);border:1px solid var(--mut)}.btn:hover{background:linear-gradient(135deg,#00b0ff,var(--pri));transform:translateY(-2px)}.btn:active{transform:scale(.95)}.stats{justify-content:space-around;margin-top:22px}.override,.stat{flex-direction:column}.stat{min-width:150px;align-items:center;padding:14px;border:1px dashed #3dd9ff38;border-radius:14px}.stat b{display:block;font-size:1.35em;color:#fff}@media screen and (max-width:560px){.stats{flex-direction:column;gap:1rem}.wave{display:none}::-webkit-scrollbar{color:var(--pri);width:12px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--pri);border-radius:12px}}section{padding:80px 18px}.wrap{max-width:1100px;margin:auto}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.override{display:flex;gap:12px;margin-top:22px}.override span label{margin-left:10px;color:var(--ink);font-weight:700;font-size:1.1rem}input{background-color:transparent;border:none;width:40px;outline:0;text-align:center}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}footer{padding:60px 18px 90px;background:linear-gradient(180deg,transparent,#0b1020cc 40%,#05070e 100%);border-top:1px solid #ffffff0f}@media (max-width:900px){.hero-inner{grid-template-columns:1fr}}.sparkle{text-shadow:0 0 20px rgba(0,229,255,.6),0 0 40px rgba(0,229,255,.2);animation:5s ease-in-out infinite sparkle;display:inline-block}@keyframes sparkle{0%,100%{filter:drop-shadow(0 0 0 rgba(0, 229, 255, 0))}50%{filter:drop-shadow(0 0 14px rgba(0, 229, 255, .7))}}.pcb{position:fixed;inset:0;z-index:-2;opacity:.8;pointer-events:none;background:radial-gradient(800px 400px at 20% 10%,#0c1b38 0,transparent 60%);mask:linear-gradient(180deg,#000 50%,transparent 100%)}.wave,.waves{inset:auto 0 0 0;height:220px}.pcb svg{width:1800px;height:auto;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1.2)}.data-rain::after,.data-rain::before,.waves,canvas.snow{position:fixed;pointer-events:none;z-index:-1}.trace{fill:none;stroke:#1bd3ff;stroke-width:2;stroke-linecap:round;filter:drop-shadow(0 0 3px #00e5ff88)}.trace.dim{stroke:#1086a8}.pulse{stroke-dasharray:6 12;animation:3s linear infinite flow}@keyframes flow{to{stroke-dashoffset:-200}}.node{fill:#00ffd0;filter:drop-shadow(0 0 6px #00ffd0aa)}.node.blink{animation:1.8s ease-in-out infinite blink}@keyframes blink{50%{opacity:.2}}.wave{position:absolute;opacity:.6}.wave svg{width:200%;height:100%}.wave:first-child{animation:14s linear infinite drift}.wave:nth-child(2){animation:22s linear infinite reverse drift;opacity:.45}.wave:nth-child(3){animation:38s linear infinite drift;opacity:.3}@keyframes drift{to{transform:translateX(-50%)}}canvas.snow{inset:0;mix-blend-mode:screen;opacity:1;box-shadow:0 0 1px initial}.data-rain::after,.data-rain::before{content:"";inset:0;opacity:.35;background:repeating-linear-gradient(to bottom,transparent 0 28px,rgba(0,255,200,.06) 28px 30px)}.data-rain::after{opacity:.2;background:radial-gradient(2px 2px at 20% 10%,#00ffd0 50%,transparent 60%),radial-gradient(2px 2px at 70% 30%,#00e5ff 50%,transparent 60%),radial-gradient(2px 2px at 40% 80%,#00ffd0 50%,transparent 60%);filter:blur(.5px)}.card.glow{box-shadow:0 0 0 1px #00e5ff33,0 0 80px #00e5ff12 inset}.alert{color:var(--hot)}fieldset{border:1px solid var(--pri);border-radius:16px;padding:12px}legend{margin:1rem}.ajouter{display:flex;flex-direction:column;gap:2rem}.ajouter .debut,.ajouter .fin{margin-left:3rem}.ajouter .fin{margin-left:4.4rem}.ajouter .debut input,.ajouter .fin input{border-bottom:1px solid var(--pri)}.modifierPlageHoraire{position:absolute;cursor:pointer;right:20px;top:20px}.edit_plage_zone{margin-left:2rem;display:flex;align-items:center;gap:2rem}.plage{display:flex;flex-direction:column;padding-bottom:1rem}
-  </style>
+    <style>  
+      input,
+      legend {
+        color: var(--pri);
+        font-weight: 700;
+      }
 
-<body class="data-rain">
-  <!-- ====== PCB BACKGROUND ====== -->
-  <div class="pcb" aria-hidden="true">
-    <svg viewBox="0 0 1200 800">
-      <!-- Traces -->
-      <path class="trace dim" d="M40 120 C 240 60, 380 240, 560 140 S 840 40, 1140 120" />
-      <path class="trace pulse" d="M60 280 C 240 200, 420 360, 600 260 S 900 200, 1140 260" />
-      <path class="trace" d="M100 420 C 180 380, 260 520, 360 460 S 540 360, 760 440 S 980 560, 1120 520" />
-      <path class="trace pulse" d="M80 600 C 220 540, 380 700, 560 620 S 820 520, 1100 620" />
+      .btn,
+      input,
+      legend {
+        font-weight: 700;
+      }
 
-      <!-- Nodes -->
-      <circle class="node blink" cx="120" cy="120" r="3" />
-      <circle class="node" cx="360" cy="170" r="3" />
-      <circle class="node blink" cx="560" cy="140" r="4" />
-      <circle class="node" cx="920" cy="90" r="3" />
-      <circle class="node blink" cx="180" cy="420" r="4" />
-      <circle class="node" cx="360" cy="460" r="3" />
-      <circle class="node blink" cx="760" cy="440" r="4" />
-      <circle class="node" cx="980" cy="560" r="3" />
-      <circle class="node blink" cx="220" cy="600" r="4" />
-      <circle class="node" cx="560" cy="620" r="3" />
-      <circle class="node blink" cx="980" cy="620" r="4" />
-    </svg>
-  </div>
+      :root {
+        --bg: #0b1020;
+        --bg2: #0f1733;
+        --pri: #00e5ff;
+        --acc: #00ffa8;
+        --hot: #ff3e7f;
+        --ink: #e6f7ff;
+        --mut: #89a8b3;
+        --card: #111a31cc;
+        --glass: rgba(255, 255, 255, 0.08);
+        --glow: 0 0 18px rgba(0, 229, 255, 0.55), 0 0 38px rgba(0, 229, 255, 0.25);
+      }
 
-  <!-- ====== WAVES ====== -->
-  <div class="waves" aria-hidden="true">
-    <div class="wave">
-      <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-        <path fill="#0c1a35" fill-opacity="0.8"
-          d="M0,160L60,144C120,128,240,96,360,117.3C480,139,600,213,720,229.3C840,245,960,203,1080,170.7C1200,139,1320,117,1380,106.7L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
-        </path>
+      * {
+        box-sizing: border-box;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      body,
+      html {
+        height: 100%;
+      }
+
+      body {
+        color: var(--ink); 
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+          Inter, Arial, sans-serif;
+        background: radial-gradient(1200px 700px at 70% -10%,
+            #12224a 0,
+            transparent 60%),
+          linear-gradient(180deg, var(--bg), var(--bg2) 35%, var(--bg) 100%);
+        overflow-x: hidden;
+      }
+
+      header {
+        position: fixed;
+        inset: 0 0 auto 0;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 18px;
+        background: linear-gradient(#0b1020cc, #0b102000);
+        border-bottom: 1px solid #ffffff12;
+        z-index: 50;
+        backdrop-filter: blur(6px);
+      }
+  
+      .hero,
+      footer,
+      section {
+        position: relative;
+      }
+
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .brand .logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: conic-gradient(from 180deg,
+            var(--pri),
+            var(--acc),
+            var(--hot),
+            var(--pri));
+        box-shadow: var(--glow);
+      }
+
+      .brand h1 {
+        font-size: 18px;
+        margin: 0;
+      }
+
+
+      a {
+        margin: 0 10px;
+        opacity: 0.9;
+        text-decoration: none;
+        color: var(--hot);
+        font-size: 1.5rem;
+        transition: .2s;
+      }
+
+      a:hover { 
+        text-shadow: 0 0 1rem var(--bg),0 0 2rem var(--hot);  
+        font-size: 1.7rem;
+      }
+
+      .hero {
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 92px 18px 120px;
+      }
+
+      .hero-inner {
+        max-width: 1100px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+      }
+
+      .cta,
+      .stat,
+      .stats {
+        display: flex;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid #ffffff1a;
+        border-radius: 22px;
+        padding: 26px;
+        box-shadow: 0 8px 30px #0008;
+        backdrop-filter: saturate(1.2) blur(4px);
+      }
+
+      h2 {
+        font-size: clamp(28px, 3vw, 44px);
+        margin: 0 0 12px;
+      }
+
+      .alert,
+      input,
+      legend {
+        font-size: 1.2rem;
+      }
+
+      p {
+        color: var(--mut);
+        line-height: 1.6;
+      }
+
+      .cta {
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .btn {
+        appearance: none;
+        border: none;
+        border-radius: 16px;
+        padding: 12px 18px;
+        cursor: pointer;
+        transition: transform 0.25s, box-shadow 0.25s;
+        box-shadow: 0 6px 14px #0008;
+      }
+
+      .btn.primary {
+        background: linear-gradient(135deg, var(--pri), #00b0ff);
+        color: #001217;
+        box-shadow: 0 0 0 2px #00c7ff55, var(--glow);
+      }
+
+      .btn.ghost {
+        background: 0 0;
+        color: var(--ink);
+        border: 1px solid var(--mut);
+      }
+
+      .btn:hover {
+        background: linear-gradient(135deg, #00b0ff, var(--pri));
+        transform: translateY(-2px);
+      }
+
+      .btn:active {
+        transform: scale(0.95);
+      }
+
+      .stats {
+        justify-content: space-around;
+        margin-top: 22px;
+      }
+
+      .stat {
+        min-width: 150px;
+        flex-direction: column;
+        align-items: center;
+        padding: 14px;
+        border: 1px dashed #3dd9ff38;
+        border-radius: 14px;
+      }
+
+      .stat b {
+        display: block;
+        font-size: 1.35em;
+        color: #fff;
+      }
+
+        @media  screen and (max-width: 560px) {
+      .stats{
+        flex-direction: column;
+        gap:1rem;
+      }
+      .wave{
+        display: none;
+      }
+          ::-webkit-scrollbar {
+        color: var(--pri);
+        width: 12px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--bg); 
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--pri);
+        border-radius: 12px;
+      }
+    }
+
+      section {
+        padding: 80px 18px;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: auto;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .override{
+        display: flex;
+        gap: 12px;
+      }
+
+      .override {
+        flex-direction: column;
+        margin-top: 22px;
+      }
+
+      .override span label {
+        margin-left: 10px;
+        color: var(--ink);
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      input {
+        background-color: transparent;
+        border: none;
+        width: 40px;
+        outline: 0;
+        text-align: center;
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      } 
+
+      footer {
+        padding: 60px 18px 90px;
+        background: linear-gradient(180deg,
+            transparent,
+            #0b1020cc 40%,
+            #05070e 100%);
+        border-top: 1px solid #ffffff0f;
+      }
+
+      @media (max-width: 900px) {
+        .hero-inner {
+          grid-template-columns: 1fr;
+        } 
+      } 
+
+      .sparkle {
+        text-shadow: 0 0 20px rgba(0, 229, 255, 0.6),
+          0 0 40px rgba(0, 229, 255, 0.2);
+        animation: 5s ease-in-out infinite sparkle;
+        display: inline-block;
+      }
+
+      @keyframes sparkle {
+
+        0%,
+        100% {
+          filter: drop-shadow(0 0 0 rgba(0, 229, 255, 0));
+        }
+
+        50% {
+          filter: drop-shadow(0 0 14px rgba(0, 229, 255, 0.7));
+        }
+      }
+
+      .pcb {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        opacity: 0.8;
+        pointer-events: none;
+        background: radial-gradient(800px 400px at 20% 10%,
+            #0c1b38 0,
+            transparent 60%);
+        mask: linear-gradient(180deg, #000 50%, transparent 100%);
+      }
+
+      .wave,
+      .waves {
+        inset: auto 0 0 0;
+        height: 220px;
+      }
+
+      .pcb svg {
+        width: 1800px;
+        height: auto;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.9;
+      }
+
+      .data-rain::after,
+      .data-rain::before,
+      .waves,
+      canvas.snow {
+        position: fixed;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .trace {
+        fill: none;
+        stroke: #1bd3ff;
+        stroke-width: 2;
+        stroke-linecap: round;
+        filter: drop-shadow(0 0 3px #00e5ff88);
+      }
+
+      .trace.dim {
+        stroke: #1086a8;
+      }
+
+      .pulse {
+        stroke-dasharray: 6 12;
+        animation: 3s linear infinite flow;
+      }
+
+      @keyframes flow {
+        to {
+          stroke-dashoffset: -200;
+        }
+      }
+
+      .node {
+        fill: #00ffd0;
+        filter: drop-shadow(0 0 6px #00ffd0aa);
+      }
+
+      .node.blink {
+        animation: 1.8s ease-in-out infinite blink;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      .wave {
+        position: absolute;
+        opacity: 0.6;
+      }
+
+      .wave svg {
+        width: 200%;
+        height: 100%;
+      }
+
+      .wave:first-child {
+        animation: 14s linear infinite drift;
+      }
+
+      .wave:nth-child(2) {
+        animation: 22s linear infinite reverse drift;
+        opacity: 0.45;
+      }
+
+      .wave:nth-child(3) {
+        animation: 38s linear infinite drift;
+        opacity: 0.3;
+      }
+
+      @keyframes drift {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      canvas.snow {
+        inset: 0;
+        mix-blend-mode: screen;
+        opacity: 1;
+        box-shadow: 0 0 1px initial;
+      }
+
+      .data-rain::after,
+      .data-rain::before {
+        content: "";
+        inset: 0;
+        opacity: 0.35;
+        background: repeating-linear-gradient(to bottom,
+            transparent 0 28px,
+            rgba(0, 255, 200, 0.06) 28px 30px);
+      }
+
+      .data-rain::after {
+        opacity: 0.2;
+        background: radial-gradient(2px 2px at 20% 10%,
+            #00ffd0 50%,
+            transparent 60%),
+          radial-gradient(2px 2px at 70% 30%, #00e5ff 50%, transparent 60%),
+          radial-gradient(2px 2px at 40% 80%, #00ffd0 50%, transparent 60%);
+        filter: blur(0.5px);
+      }
+
+      .card.glow {
+        box-shadow: 0 0 0 1px #00e5ff33, 0 0 80px #00e5ff12 inset;
+      }
+
+      .alert {
+        color: var(--hot);
+      }
+
+      fieldset {
+        border: 1px solid var(--pri);
+        border-radius: 16px;
+        padding: 12px;
+      }
+
+      legend {
+        margin: 1rem;
+      }
+
+      .ajouter {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .ajouter .debut,
+      .ajouter .fin {
+        margin-left: 3rem;
+      }
+
+      .ajouter .fin {
+        margin-left: 4.4rem;
+      }
+
+      .ajouter .debut input,
+      .ajouter .fin input {
+        border-bottom: 1px solid var(--pri);
+      }
+
+      .modifierPlageHoraire {
+        position: absolute;
+        cursor: pointer;
+        right: 20px;
+        top: 20px;
+      }
+
+      .edit_plage_zone {
+        margin-left: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .plage {
+        display: flex;
+        gap:.5rem;
+        flex-direction: column;
+        padding-bottom: 1rem;
+      }
+    </style>
+
+  <body class="data-rain">
+    <!-- ====== PCB BACKGROUND ====== -->
+    <div class="pcb" aria-hidden="true">
+      <svg viewBox="0 0 1200 800">
+        <!-- Traces -->
+        <path class="trace dim" d="M40 120 C 240 60, 380 240, 560 140 S 840 40, 1140 120" />
+        <path class="trace pulse" d="M60 280 C 240 200, 420 360, 600 260 S 900 200, 1140 260" />
+        <path class="trace" d="M100 420 C 180 380, 260 520, 360 460 S 540 360, 760 440 S 980 560, 1120 520" />
+        <path class="trace pulse" d="M80 600 C 220 540, 380 700, 560 620 S 820 520, 1100 620" />
+
+        <!-- Nodes -->
+        <circle class="node blink" cx="120" cy="120" r="3" />
+        <circle class="node" cx="360" cy="170" r="3" />
+        <circle class="node blink" cx="560" cy="140" r="4" />
+        <circle class="node" cx="920" cy="90" r="3" />
+        <circle class="node blink" cx="180" cy="420" r="4" />
+        <circle class="node" cx="360" cy="460" r="3" />
+        <circle class="node blink" cx="760" cy="440" r="4" />
+        <circle class="node" cx="980" cy="560" r="3" />
+        <circle class="node blink" cx="220" cy="600" r="4" />
+        <circle class="node" cx="560" cy="620" r="3" />
+        <circle class="node blink" cx="980" cy="620" r="4" />
       </svg>
     </div>
-    <div class="wave">
-      <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-        <path fill="#0a1530" fill-opacity="0.7"
-          d="M0,64L80,69.3C160,75,320,85,480,117.3C640,149,800,203,960,208C1120,213,1280,171,1360,149.3L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
-        </path>
-      </svg>
-    </div>
-    <div class="wave">
-      <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-        <path fill="#071026" fill-opacity="0.65"
-          d="M0,32L48,69.3C96,107,192,181,288,202.7C384,224,480,192,576,165.3C672,139,768,117,864,112C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-        </path>
-      </svg>
-    </div>
-  </div>
 
-  <!-- ====== SNOW ====== -->
-  <canvas class="snow" id="snow"></canvas>
-
-  <!-- ====== HEADER ====== -->
-  <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true"></div>
-      <h1>GACI • <span class="mono">Module embarque</span></h1>
+    <!-- ====== WAVES ====== -->
+    <div class="waves" aria-hidden="true">
+      <div class="wave">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path fill="#0c1a35" fill-opacity="0.8"
+            d="M0,160L60,144C120,128,240,96,360,117.3C480,139,600,213,720,229.3C840,245,960,203,1080,170.7C1200,139,1320,117,1380,106.7L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
+          </path>
+        </svg>
+      </div>
+      <div class="wave">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path fill="#0a1530" fill-opacity="0.7"
+            d="M0,64L80,69.3C160,75,320,85,480,117.3C640,149,800,203,960,208C1120,213,1280,171,1360,149.3L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
+          </path>
+        </svg>
+      </div>
+      <div class="wave">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path fill="#071026" fill-opacity="0.65"
+            d="M0,32L48,69.3C96,107,192,181,288,202.7C384,224,480,192,576,165.3C672,139,768,117,864,112C960,107,1056,117,1152,128C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+          </path>
+        </svg>
+      </div>
     </div>
-  </header>
 
-  <!-- ====== HERO ====== -->
-  <section id="acceuil" class="hero">
-    <div class="hero-inner">
-      <div class="card glow">
-        <h2>
-          Controler vos appareil avec l'<span class="sparkle">IoT</span>
-        </h2>
-        <p>
-          Economiser de l'énergie, de l'<b>argent</b> en
-          <b>controlant</b> l'allimentation de vos
-          <b>appareils</b>avec l'<b>IoT</b> et l'Arduino.
-        </p>
-        <div class="stats">
-          <div class="stat">
-            <b id="currentTime"><span class="alert">⁉️ </span>•• : •• : ••</b>
-          </div>
-          <div class="stat">
-            <b id="date"><span class="alert">⁉️ </span>•• / •• / ••••</b>
-          </div>
-          <div class="stat" style="flex-direction: row; justify-content: center; gap: 3px">
-            -<b id="stat-3">0 </b> min
-          </div>
-        </div>
-        <div class="plages">
-          <br />
-          <h2>Plages autoriser</h2>
-          <div class="edit_plage_zone">
-            <div class="plage">
-              <!-- )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span
-              >" ; page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; page
-                +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); page +="</span
-                >" ; } page +=R"rawliteral(  -->
-                  </div>
-                <button class="btn primary" id="openEdit" style="height: 50px">
-                  ⚙️
-                </button>
+    <!-- ====== SNOW ====== -->
+    <canvas class="snow" id="snow"></canvas>
+        <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>GACI • <span class="mono">Module embarque</span></h1>
+      </div>
+    </header>
+
+    <!-- ====== HERO ====== -->
+    <section id="acceuil" class="hero">
+      <div class="hero-inner">
+        <div class="card glow">
+          <h2>
+            Controler vos appareil avec l'<span class="sparkle">IoT</span>
+          </h2>
+          <p>
+            Economiser de l'énergie, de l'<b>argent</b> en
+            <b>controlant</b> l'allimentation de vos
+            <b>appareils</b> avec l'<b>IoT</b> et l'Arduino.
+          </p>
+          <div class="stats">
+            <div class="stat">
+              <b id="currentTime"><span class="alert">⁉️ </span>•• : •• : ••</b>
+            </div>
+            <div class="stat">
+              <b id="date"><span class="alert">⁉️ </span>•• / •• / ••••</b>
+            </div>
+            <div class="stat" style="flex-direction: row; justify-content: center; gap: 3px">
+              -<b id="stat-3">0 </b> min
             </div>
           </div>
-          <form action="/override" method="GET" class="override">
-            <span><label for="override">Allumer l'appareil pendant
-                <input type="number" value="0" name="minutes" id="minutesInput" min="1" max="180" />
-                minutes</label></span>
-            <button class="btn primary">Allumez</button>
-          </form>
+          <div class="plages">
+            <br />
+            <h2>Plages autoriser</h2>
+            <div class="edit_plage_zone">
+              <div class="plage">
+                <!-- )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span>" ;
+                page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ;
+                page +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); page +="</span>" ;
+                  } page +=R"rawliteral( -->
+                     </div>
+                  <button class="btn ghost" id="openEdit" style="height: 50px">
+                    ⚙️
+                  </button>
+              </div>
+            </div>
+            <form action="/override" method="GET" class="override">
+              <span><label for="override">Allumer l'appareil pendant
+                  <input type="number" value="0" name="minutes" id="minutesInput" min="1" max="180" />
+                  minutes</label></span>
+              <button class="btn primary">Allumez</button>
+            </form>
+          </div>
+        </div>
+    </section>
+    
+    <section id="edit_plages" class="hero" style="display: none">
+      <div class="hero-inner">
+        <div class="card glow">
+          <h2><b>Modifier</b> les plages autorisées</h2>
+          <button class="modifierPlageHoraire btn ghost" id="closeEdit">
+            Fermer
+          </button>
+          <div id="editPlages">
+            <div class="plageHoraireEdit">
+              <div class='plage'>
+                  <!-- )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span>" ;
+                  page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; 
+                  page +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); 
+                  page +="<a href='/del?id=" + String(i) + "'>🗑</a>" ; page +="</span>" ; } 
+                  page +=R"rawliteral(  -->
+                    </div>
+                  <form action="/add" method="GET">
+                <fieldset>
+                  <legend>ajouter plage</legend>
+                  <div class="ajouter">
+                    <div class="debut">
+                      <span>Debut :</span>
+                      <input type="number" name="h" min="0" max="23" placeholder="H" />
+                      <span>:</span>
+                      <input type="number" name="m" min="0" max="59" placeholder="M" />
+                      <br />
+                    </div>
+                    <div class="fin">
+                      <span>Fin : </span>
+                      <input type="number" name="hf" min="0" max="23" placeholder="H" />
+                      <span>:</span>
+                      <input type="number" name="mf" min="0" max="59" placeholder="M" /><br />
+                    </div>
+                    <button class="btn primary">Ajouter</button>
+                  </div>
+                </fieldset>
+                </form>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    
-  <section id="edit_plages" class="hero" style="display: none">
-    <div class="hero-inner">
-      <div class="card glow">
-        <h2><b>Modifier</b> les plages autorisées</h2>
-        <button class="modifierPlageHoraire btn ghost" id="closeEdit">
-          Fermer
-        </button>
-        <div id="editPlages">
-          <div class="plageHoraireEdit">
-            <div class="plage">
-              <span>16h10 → 17h0 <a href="#">🗑</a></span>
-            <span>16h10 → 17h0 <a href="#">🗑</a></span>
-            <span>16h10 → 17h0 <a href="#">🗑</a></span>
-            <span>16h10 → 17h0 <a href="#">🗑</a></span>
-            <span>16h10 → 17h0 <a href="#">🗑</a></span>
-            <!-- )rawliteral"; for (uint8_t i = 0; i < nPlages; i++) { page +="<span
-            >" ; page +=String(plages[i].heure_debut) + "h" + String(plages[i].minute_debut) + " → " ; page
-            +=String(plages[i].heure_fin) + "h" + String(plages[i].minute_fin); page +="
-            <a href='/del?id=" + String(i) + "'>🗑</a>" ; page +="</span
-            >" ; } page +=R"rawliteral(  -->
-          </div>
-          <div id="alertBox"></div>
-          <form action="/add" method="GET">
-            <fieldset>
-              <legend>ajouter plage</legend>
-              <div class="ajouter">
-                  <div class="debut">
-                    <span>Debut :</span>
-                    <input type="number" required class="add_plage" name="h" min="0" max="23" placeholder="H" />
-                    <span>:</span>
-                    <input type="number" required class="add_plage" name="m" min="0" max="59" placeholder="M" />
-                    <br />
-                  </div>
-                  <div class="fin">
-                    <span>Fin : </span>
-                    <input type="number" required class="add_plage" name="hf" min="0" max="23" placeholder="H" />
-                    <span>:</span>
-                    <input type="number" required class="add_plage" name="mf" min="0" max="59" placeholder="M" /><br />
-                  </div>
-                  <button type="submit" class="btn primary">Ajouter</button>
-                </div>
-              </fieldset>
-              </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</body>
-<script>
-  // ===== UTIL =====
-  const qs = (s) => document.querySelector(s);
-  const qsa = (s) => Array.from(document.querySelectorAll(s));
+  </body>
+  <script>
+    // ===== UTIL =====
+    const qs = (s) => document.querySelector(s);
+    const qsa = (s) => Array.from(document.querySelectorAll(s));
 
-  // ===== SNOW =====
-  const snow = (() => {
-    const canvas = document.getElementById("snow");
-    const ctx = canvas.getContext("2d");
-    let W = (canvas.width = innerWidth);
-    let H = (canvas.height = innerHeight);
-    let flakes = [];
-    const baseCount = Math.min(
-      220,
-      Math.max(100, Math.floor((W * H) / 25000))
-    );
+    // ===== SNOW =====
+    const snow = (() => {
+      const canvas = document.getElementById("snow");
+      const ctx = canvas.getContext("2d");
+      let W = (canvas.width = innerWidth);
+      let H = (canvas.height = innerHeight);
+      let flakes = [];
+      const baseCount = Math.min(
+        220,
+        Math.max(100, Math.floor((W * H) / 25000))
+      );
 
-    function reset() {
-      W = canvas.width = innerWidth;
-      H = canvas.height = innerHeight;
-      const count = Math.floor(baseCount * 4); //quantite des flocons
-      flakes = new Array(count).fill(0).map(() => ({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: Math.random() * 2.2 + 0.6,
-        v: Math.random() * 0.6 + 0.2,
-        w: Math.random() * 0.7 + 0.1,
-        o: Math.random() * 0.5 + 0.3,
-      }));
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-      ctx.globalCompositeOperation = "lighter";
-      for (const f of flakes) {
-        f.y += f.v * 1; //vitesse de tomber des flocons
-        f.x += Math.sin(f.y * 0.02) * f.w;
-        if (f.y > H + 10) {
-          f.y = -10;
-          f.x = Math.random() * W;
-        }
-        ctx.globalAlpha = f.o;
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-        ctx.fillStyle = "#bff7ff";
-        ctx.fill();
+      function reset() {
+        W = canvas.width = innerWidth;
+        H = canvas.height = innerHeight;
+        const count = Math.floor(baseCount * 4); //quantite des flocons
+        flakes = new Array(count).fill(0).map(() => ({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 2.2 + 0.6,
+          v: Math.random() * 0.6 + 0.2,
+          w: Math.random() * 0.7 + 0.1,
+          o: Math.random() * 0.5 + 0.3,
+        }));
       }
-      requestAnimationFrame(draw);
-    }
-    addEventListener("resize", reset);
-    reset();
-    draw();
-  })();
 
-  const buttons = qsa('button') 
-  const add_plage = qsa('.add_plage')
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.globalCompositeOperation = "lighter";
+        for (const f of flakes) {
+          f.y += f.v * 1; //vitesse de tomber des flocons
+          f.x += Math.sin(f.y * 0.02) * f.w;
+          if (f.y > H + 10) {
+            f.y = -10;
+            f.x = Math.random() * W;
+          }
+          ctx.globalAlpha = f.o;
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+          ctx.fillStyle = "#bff7ff";
+          ctx.fill();
+        }
+        requestAnimationFrame(draw);
+      }
+      addEventListener("resize", reset);
+      reset();
+      draw();
+    })();
 
-  add_plage.forEach((input) => {
-    input.addEventListener("submit", (e) => {
-     if(input.textContent === '') alert('danger')
-    });
-  });
+    const hours = document.getElementById("currentTime");
+    const date = document.getElementById("date");
+    const timer = setInterval(() => {
+      const currentDate = new Date();
+      hours.textContent = currentDate.getHours() + " : " + currentDate.getMinutes() + " : " + currentDate.getSeconds();
+      date.textContent = currentDate.getDate() + " / " + (currentDate.getMonth() + 1) + " / " + currentDate.getFullYear();
+    }, 1000);
 
-  buttons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      
-    });
-  });
+    const openEdit = document.getElementById("openEdit");
+    const closeEdit = document.getElementById("closeEdit");
+    const editDisplay = document.getElementById("edit_plages");
+    const homeDisplay = document.getElementById("acceuil");
   
+    // function updateTime() {
+    //   fetch("/time")
+    //     .then((response) => response.text())
+    //     .then((data) => {
+    //       document.getElementById("currentTime").textContent = data;
+    //     })
+    //     .catch((err) => console.error("Erreur maj heure :", err));
+    // }
+    // setInterval(updateTime, 1000);
 
-  const hours = document.getElementById("currentTime");
-  const date = document.getElementById("date");
-  const timer = setInterval(() => {
-    const currentDate = new Date();
-    hours.textContent =
-      currentDate.getHours() +
-      " : " +
-      currentDate.getMinutes() +
-      " : " +
-      currentDate.getSeconds();
-    date.textContent =
-      currentDate.getDate() +
-      " / " +
-      (currentDate.getMonth() + 1) +
-      " / " +
-      currentDate.getFullYear();
-  }, 1000);
+    // function updateText() {
+    //   fetch("/allumer")
+    //     .then((response) => response.text())
+    //     .then((data) => {
+    //       document.getElementById("powerBtn").textContent = data;
+    //     })
+    //     .catch((err) => console.error("Erreur text :", err));
+    // }
+    // setInterval(updateText, 1000);
 
-  const openEdit = document.getElementById("openEdit");
-  const closeEdit = document.getElementById("closeEdit");
-  const editDisplay = document.getElementById("edit_plages");
-  const homeDisplay = document.getElementById("acceuil");
- 
-  // function updateTime() {
-  //   fetch("/time")
-  //     .then((response) => response.text())
-  //     .then((data) => {
-  //       document.getElementById("currentTime").textContent = data;
-  //     })
-  //     .catch((err) => console.error("Erreur maj heure :", err));
-  // }
-  // setInterval(updateTime, 1000);
+    // Gestion de l’edition des plages
+    openEdit.addEventListener("click", () => {
+      editDisplay.style.display = "block";
+      homeDisplay.style.display = "none";
+    });
 
-  // function updateText() {
-  //   fetch("/allumer")
-  //     .then((response) => response.text())
-  //     .then((data) => {
-  //       document.getElementById("powerBtn").textContent = data;
-  //     })
-  //     .catch((err) => console.error("Erreur text :", err));
-  // }
-  // setInterval(updateText, 1000);
+    closeEdit.addEventListener("click", () => {
+      editDisplay.style.display = "none";
+      homeDisplay.style.display = "block";
+    });
+  </script>
 
-  // Gestion de l’edition des plages
-  openEdit.addEventListener("click", () => {
-    editDisplay.style.display = "block";
-    homeDisplay.style.display = "none";
-  });
-
-  closeEdit.addEventListener("click", () => {
-    editDisplay.style.display = "none";
-    homeDisplay.style.display = "block";
-  });
-</script>
-
-</html>
+  </html>
