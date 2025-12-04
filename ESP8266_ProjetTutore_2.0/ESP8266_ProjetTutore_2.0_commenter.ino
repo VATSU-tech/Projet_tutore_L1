@@ -17,8 +17,11 @@
 #define RTC_RST D7
 
 // Broches utilisées pour le relais et la LED
-#define pin_relais LED_BUILTIN
-#define pin_led    D3
+#define pin_relais D2
+#define pin_light D0
+#define pin_led    LED_BUILTIN
+
+bool state_light = false;
 
 ESP8266WebServer server(80);     // Déclaration d’un serveur web sur le port 80
 DS1302 rtc(RTC_RST, RTC_CLK, RTC_DAT); // Instance pour piloter l’horloge RTC
@@ -216,6 +219,13 @@ bool chargerPlages() {                                     // Fonction pour char
   void handleRun(){
     String allumer = activerRelais() ? "Appareil allumer" : "Allumer l'appareil";
     server.send(200, "text/plain", allumer);
+  }
+
+  void handleLight(){
+    state_light = !state_light;
+    digitalWrite(pin_light,state_light);
+    server.sendHeader("Location", "/");
+    server.send(303);
   }
 
   // ====== PAGE WEB AVEC AFFICHAGE HEURE RTC ======
@@ -830,6 +840,7 @@ bool chargerPlages() {                                     // Fonction pour char
                 <button class="btn primary" id="openEdit" style="height: 50px">
                   ⚙️
                 </button>
+                <span class="btn ghost"><a href="/light">Allumer</a></span>
             </div>
           </div>
           <form action="/override" method="GET" class="override">
@@ -943,7 +954,7 @@ bool chargerPlages() {                                     // Fonction pour char
   const date = document.getElementById("date");
   const timer = setInterval(() => {
     const currentDate = new Date();
-    hours.textContent = currentDate.getHours() + " : " + currentDate.getMinutes() + " : " + currentDate.getSeconds();
+    // hours.textContent = currentDate.getHours() + " : " + currentDate.getMinutes() + " : " + currentDate.getSeconds();
     date.textContent = currentDate.getDate() + " / " + (currentDate.getMonth() + 1) + " / " + currentDate.getFullYear();
   }, 1000);
 
@@ -952,15 +963,15 @@ bool chargerPlages() {                                     // Fonction pour char
   const editDisplay = document.getElementById("edit_plages");
   const homeDisplay = document.getElementById("acceuil");
  
-  // function updateTime() {
-  //   fetch("/time")
-  //     .then((response) => response.text())
-  //     .then((data) => {
-  //       document.getElementById("currentTime").textContent = data;
-  //     })
-  //     .catch((err) => console.error("Erreur maj heure :", err));
-  // }
-  // setInterval(updateTime, 1000);
+  function updateTime() {
+    fetch("/time")
+      .then((response) => response.text())
+      .then((data) => {
+        document.getElementById("currentTime").textContent = data;
+      })
+      .catch((err) => console.error("Erreur maj heure :", err));
+  }
+  setInterval(updateTime, 1000);
 
   function updateText() {
     fetch("/allumer")
@@ -994,8 +1005,10 @@ void setup() {
   Serial.begin(115200);
   rtc.init();
   pinMode(pin_relais, OUTPUT);
+  pinMode(pin_light, OUTPUT);
   pinMode(pin_led, OUTPUT);
   digitalWrite(pin_relais, false);
+  digitalWrite(pin_light, false);
   digitalWrite(pin_led, false);
 
 
@@ -1020,6 +1033,7 @@ void setup() {
   server.on("/time", handleTime);
   server.on("/", page_d_accueil);
   server.on("/allumer", handleRun);
+  server.on("/light", handleLight);
   server.on("/override", handleOverride);
 
   server.begin();
